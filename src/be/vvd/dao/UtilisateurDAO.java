@@ -27,9 +27,9 @@ public class UtilisateurDAO extends DAO<Utilisateur>{
 	public Utilisateur find(int id){
 		Utilisateur user = new Utilisateur();
 		try{
-			ResultSet result = this.connect.createStatement().executeQuery("SELECT Nom,Prénom,Adresse FROM Utilisateur WHERE id="+id);
+			ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Utilisateur WHERE id="+id);
 			if(result.next())
-				user = new Utilisateur(id, result.getString(1), result.getString(2), result.getString(3));
+				user = new Utilisateur(result.getString(1), result.getString(2), result.getString(3), result.getString(4),result.getString(5));
 		}
 		catch(SQLException e){
 			e.printStackTrace();

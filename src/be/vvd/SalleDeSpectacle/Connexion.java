@@ -37,7 +37,8 @@ public class Connexion extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Connexion() {		
+	public Connexion() {
+		setResizable(false);		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 470);
 		contentPane = new JPanel() {  
@@ -107,7 +108,7 @@ public class Connexion extends JFrame {
 				}
 			}
 		});
-		btnConnect.setBounds(117, 102, 85, 21);
+		btnConnect.setBounds(106, 102, 102, 21);
 		panel.add(btnConnect);
 	}
 	

@@ -8,7 +8,11 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
+
+import be.vvd.classes.Utilisateur;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -30,6 +34,7 @@ public class Inscription extends JFrame {
 	private JTextField tfConfirmPassword;
 
 	public Inscription() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 470);
 		contentPane = new JPanel() {  
@@ -100,7 +105,7 @@ public class Inscription extends JFrame {
 		panel.add(tfAdresse);
 		tfAdresse.setColumns(10);
 		
-		tfPassword = new JTextField();
+		tfPassword = new JPasswordField();
 		tfPassword.setBounds(32, 185, 96, 19);
 		panel.add(tfPassword);
 		tfPassword.setColumns(10);
@@ -131,17 +136,40 @@ public class Inscription extends JFrame {
 		lblForm.setBounds(77, 10, 145, 38);
 		panel.add(lblForm);
 		
-		JButton btnNewButton = new JButton("S'enregistrer");
-		btnNewButton.setBounds(196, 272, 103, 21);
-		panel.add(btnNewButton);
 		
 		Choice choiceRole = new Choice();
+		choiceRole.setFont(new Font("Calibri", Font.PLAIN, 12));
 		choiceRole.setBounds(32, 238, 96, 18);
+		choiceRole.addItem("Client");
+		choiceRole.addItem("Gestionnaire");
+		choiceRole.addItem("Organisateur");
 		panel.add(choiceRole);
 		
 		JLabel lblPassword_1 = new JLabel("Mot de passe");
 		lblPassword_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPassword_1.setBounds(32, 162, 96, 13);
 		panel.add(lblPassword_1);
+		
+		JButton btnNewButton = new JButton("S'enregistrer");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nom = tfNom.getText();
+				String prenom = tfPrenom.getText();
+				String email = tfEmail.getText();
+				String adresse = tfAdresse.getText();
+				String pwd = tfPassword.getText();
+				String confirmPwd = tfConfirmPassword.getText();
+				String role = choiceRole.getSelectedItem();
+				if(!pwd.equals(confirmPwd)) {
+					System.out.println("Les mots de passe sont différents ! ");
+				}else {
+					Utilisateur user = new Utilisateur(nom,prenom,adresse,role,email);
+					System.out.println(user.getRole());
+				}
+			}
+		});
+		btnNewButton.setBounds(170, 272, 129, 21);
+		panel.add(btnNewButton);
+		
 	}
 }

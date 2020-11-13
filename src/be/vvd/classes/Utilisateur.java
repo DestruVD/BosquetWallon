@@ -3,16 +3,20 @@ import java.io.Serializable;
 
 public class Utilisateur implements Serializable {
 	
-	private int id = 0;
 	private String nom = "";
 	private String prenom = "";
 	private String adresse = "";
+	private String role = "";
+	private String email = "";
+
+	public Utilisateur() {}
 	
-	public Utilisateur(int id, String nom, String prenom, String adresse) {
-		this.id = id;
+	public Utilisateur(String nom, String prenom, String adresse, String role, String email) {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.adresse = adresse;
+		this.role=role;
+		this.email=email;
 	}
 	
 	public String getNom() {
@@ -25,6 +29,11 @@ public class Utilisateur implements Serializable {
 	public String getAdresse() {
 		return this.adresse;
 	}
+	public String getRole() {
+		return this.role;
+	}
 
-	public Utilisateur() {}
+	public String getEmail() {
+		return this.email;
+	}
 }

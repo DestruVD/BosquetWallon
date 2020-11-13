@@ -36,4 +36,19 @@ public class UtilisateurDAO extends DAO<Utilisateur>{
 		}
 		return user;
 	}
+	
+	public boolean findByEmail(String email,String password) {
+		try {
+			email = email.toLowerCase();
+			ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Utilisateur WHERE Email='"+email+"'");
+			if(result.next()) {
+				if(result.getString("Password").equals(password)) {
+					return true;
+				}
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return false; 
+	}
 }

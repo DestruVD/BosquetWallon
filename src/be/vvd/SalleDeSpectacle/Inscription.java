@@ -16,10 +16,18 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import java.awt.Choice;
 
 public class Inscription extends JFrame {
 
 	private JPanel contentPane;
+	private JTextField tfNom;
+	private JTextField tfPrenom;
+	private JTextField tfEmail;
+	private JTextField tfAdresse;
+	private JTextField tfPassword;
+	private JTextField tfConfirmPassword;
 
 	public Inscription() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,7 +46,7 @@ public class Inscription extends JFrame {
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Calibri", Font.PLAIN, 25));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(292, 10, 186, 39);
+		lblNewLabel.setBounds(175, 1, 432, 39);
 		contentPane.add(lblNewLabel);
 		
 		JButton btnRetour = new JButton("Retour");
@@ -51,6 +59,89 @@ public class Inscription extends JFrame {
 		});
 		btnRetour.setBounds(10, 10, 85, 21);
 		contentPane.add(btnRetour);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(241, 50, 309, 303);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		tfNom = new JTextField();
+		tfNom.setBounds(32, 81, 96, 19);
+		panel.add(tfNom);
+		tfNom.setColumns(10);
+		
+		tfPrenom = new JTextField();
+		tfPrenom.setBounds(183, 81, 96, 19);
+		panel.add(tfPrenom);
+		tfPrenom.setColumns(10);
+		
+		tfEmail = new JTextField();
+		tfEmail.setBounds(32, 133, 96, 19);
+		panel.add(tfEmail);
+		tfEmail.setColumns(10);
+		
+		JLabel lblEmail = new JLabel("Email");
+		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEmail.setBounds(32, 110, 96, 13);
+		panel.add(lblEmail);
+		
+		JLabel lblPrenom = new JLabel("Pr\u00E9nom");
+		lblPrenom.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPrenom.setBounds(183, 58, 96, 13);
+		panel.add(lblPrenom);
+		
+		JLabel lblNom = new JLabel("Nom");
+		lblNom.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNom.setBounds(32, 58, 96, 13);
+		panel.add(lblNom);
+		
+		tfAdresse = new JTextField();
+		tfAdresse.setBounds(183, 133, 96, 19);
+		panel.add(tfAdresse);
+		tfAdresse.setColumns(10);
+		
+		tfPassword = new JTextField();
+		tfPassword.setBounds(32, 185, 96, 19);
+		panel.add(tfPassword);
+		tfPassword.setColumns(10);
+		
+		tfConfirmPassword = new JTextField();
+		tfConfirmPassword.setBounds(183, 185, 96, 19);
+		panel.add(tfConfirmPassword);
+		tfConfirmPassword.setColumns(10);
+		
+		JLabel lblAdresse = new JLabel("Adresse");
+		lblAdresse.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAdresse.setBounds(183, 110, 96, 13);
+		panel.add(lblAdresse);
+		
+		JLabel lblRole = new JLabel("Role");
+		lblRole.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRole.setBounds(32, 214, 96, 13);
+		panel.add(lblRole);
+		
+		JLabel lblPasswdConfirm = new JLabel("Confirmation");
+		lblPasswdConfirm.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPasswdConfirm.setBounds(183, 162, 96, 13);
+		panel.add(lblPasswdConfirm);
+		
+		JLabel lblForm = new JLabel("Formulaire");
+		lblForm.setFont(new Font("Calibri", Font.PLAIN, 20));
+		lblForm.setHorizontalAlignment(SwingConstants.CENTER);
+		lblForm.setBounds(77, 10, 145, 38);
+		panel.add(lblForm);
+		
+		JButton btnNewButton = new JButton("S'enregistrer");
+		btnNewButton.setBounds(196, 272, 103, 21);
+		panel.add(btnNewButton);
+		
+		Choice choiceRole = new Choice();
+		choiceRole.setBounds(32, 238, 96, 18);
+		panel.add(choiceRole);
+		
+		JLabel lblPassword_1 = new JLabel("Mot de passe");
+		lblPassword_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPassword_1.setBounds(32, 162, 96, 13);
+		panel.add(lblPassword_1);
 	}
-
 }

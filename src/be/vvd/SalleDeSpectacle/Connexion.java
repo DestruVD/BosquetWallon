@@ -11,6 +11,7 @@ import java.awt.Window;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import be.vvd.classes.Utilisateur;
@@ -70,7 +71,7 @@ public class Connexion extends JFrame {
 				main.setVisible(true);
 			}
 		});
-		btnRetour.setBounds(10, 17, 85, 21);
+		btnRetour.setBounds(10, 10, 85, 21);
 		contentPane.add(btnRetour);
 		
 		JPanel panel = new JPanel();
@@ -83,7 +84,7 @@ public class Connexion extends JFrame {
 		panel.add(Email);
 		Email.setColumns(10);
 		
-		Password = new JTextField();
+		Password = new JPasswordField();
 		Password.setBounds(178, 58, 96, 19);
 		panel.add(Password);
 		Password.setColumns(10);
@@ -103,10 +104,19 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String email = Email.getText();
 				String password = Password.getText();
-				Client client = new Client(email,password);
-				boolean bool = client.login();
-				if(bool) {
-					System.out.println("connecté");
+				Utilisateur user = new Utilisateur(email,password);
+				String ResponseUser = user.login();
+				if(ResponseUser!=null){
+					switch(ResponseUser) {
+						case "Client": System.out.println("Client");
+							break;
+						case "Organisateur": Connexion.this.dispose();
+											 DashboardOrga dashbOrga = new DashboardOrga();
+											 dashbOrga.setVisible(true);
+							break;
+						case "Gestionnaire": System.out.println("Gestionnaire");
+							break;
+					}
 				}
 			}
 		});

@@ -5,15 +5,15 @@ import be.vvd.dao.UtilisateurDAO;
 
 public class Utilisateur{
 	
-	private String nom = "";
-	private String prenom = "";
-	private String adresse = "";
-	private String role = "";
-	private String email = "";
-	private String password ="";
+	protected String nom = "";
+	protected String prenom = "";
+	protected String adresse = "";
+	protected String role = "";
+	protected String email = "";
+	protected String password ="";
 	
-	private static DAOFactory factory = (DAOFactory) DAOFactory.getFactory(0);
-	private static UtilisateurDAO dao = factory.getUtilisateurDAO();
+	protected static DAOFactory factory = (DAOFactory) DAOFactory.getFactory(0);
+	protected static UtilisateurDAO dao = factory.getUtilisateurDAO();
 
 	public Utilisateur() {}
 	
@@ -53,7 +53,10 @@ public class Utilisateur{
 		return this.password;
 	}
 	
-	public boolean login() {
+	public boolean findByEmail() {
+		return Utilisateur.dao.findByEmail(this.email);
+	}
+	public String login() {
 		return Utilisateur.dao.login(this);
 	}
 }

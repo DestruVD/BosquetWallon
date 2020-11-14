@@ -60,7 +60,7 @@ public class Main extends JFrame {
 		Inscription.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main.this.dispose();
-				Inscription insc = new Inscription();
+				InscriptionPage insc = new InscriptionPage();
 				insc.setVisible(true);
 			}
 		});

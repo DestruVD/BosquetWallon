@@ -1,6 +1,8 @@
 package be.vvd.SalleDeSpectacle;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.sql.Date;
 import java.awt.EventQueue;
 import java.awt.Graphics;
@@ -70,7 +72,8 @@ public class DashboardOrga extends JFrame {
 		contentPane.add(btnDeconnexion);
 		
 		JCalendar calendar = new JCalendar();
-		calendar.setBounds(10, 41, 206, 152);;
+		calendar.setBounds(10, 41, 206, 152);
+		
 		contentPane.add(calendar);
 		
 		JButton btnNewButton = new JButton("New button");
@@ -86,7 +89,12 @@ public class DashboardOrga extends JFrame {
 				}
 				java.sql.Date date = new java.sql.Date(parsed.getTime());
 				Representation rep = new Representation(date);
-				rep.ajouterRepresentation();
+				Component comp[] = calendar.getDayChooser().getDayPanel().getComponents();
+				for(int i = 7 ; i< comp.length; i++) {
+					comp[i].setBackground(new Color(255,0,0));
+					comp[i].setEnabled(false);
+				}
+//				rep.ajouterRepresentation();
 			}
 		});
 		btnNewButton.setBounds(72, 203, 85, 21);

@@ -56,6 +56,7 @@ public class Main extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton Inscription = new JButton("Inscription");
+		Inscription.setBorder(null);
 		Inscription.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main.this.dispose();
@@ -74,6 +75,9 @@ public class Main extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JButton Connexion = new JButton("Connexion");
+		Connexion.setDefaultCapable(false);
+		Connexion.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		Connexion.setBorder(null);
 		Connexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main.this.dispose();

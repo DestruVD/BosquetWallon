@@ -1,22 +1,34 @@
 package be.vvd.classes;
-import java.io.Serializable;
 
-public class Utilisateur implements Serializable {
+import be.vvd.dao.DAOFactory;
+import be.vvd.dao.UtilisateurDAO;
+
+public class Utilisateur{
 	
 	private String nom = "";
 	private String prenom = "";
 	private String adresse = "";
 	private String role = "";
 	private String email = "";
+	private String password ="";
+	
+	private static DAOFactory factory = (DAOFactory) DAOFactory.getFactory(0);
+	private static UtilisateurDAO dao = factory.getUtilisateurDAO();
 
 	public Utilisateur() {}
 	
-	public Utilisateur(String nom, String prenom, String adresse, String role, String email) {
+	public Utilisateur(String nom, String prenom, String adresse, String role, String email,String password) {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.adresse = adresse;
 		this.role=role;
 		this.email=email;
+		this.password=password;
+	}
+	
+	public Utilisateur(String email, String password) {
+		this.email=email;
+		this.password=password;
 	}
 	
 	public String getNom() {
@@ -35,5 +47,13 @@ public class Utilisateur implements Serializable {
 
 	public String getEmail() {
 		return this.email;
+	}
+	
+	public String getPassword() {
+		return this.password;
+	}
+	
+	public boolean login() {
+		return Utilisateur.dao.login(this);
 	}
 }

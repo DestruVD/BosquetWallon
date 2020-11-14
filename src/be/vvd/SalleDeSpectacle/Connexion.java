@@ -1,5 +1,7 @@
 package be.vvd.SalleDeSpectacle;
 
+import be.vvd.classes.*;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Graphics;
@@ -14,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import be.vvd.classes.Utilisateur;
 import be.vvd.dao.DAO;
 import be.vvd.dao.DAOFactory;
+import be.vvd.dao.UtilisateurDAO;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -100,9 +103,8 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String email = Email.getText();
 				String password = Password.getText();
-				DAOFactory factory = (DAOFactory) DAOFactory.getFactory(0);
-				DAO<Utilisateur> dao = factory.getUtilisateurDAO();
-				boolean bool = dao.findByEmail(email,password);
+				Client client = new Client(email,password);
+				boolean bool = client.login();
 				if(bool) {
 					System.out.println("connecté");
 				}
@@ -110,9 +112,5 @@ public class Connexion extends JFrame {
 		});
 		btnConnect.setBounds(106, 102, 102, 21);
 		panel.add(btnConnect);
-	}
-	
-	private static void connexion(String email,String password) {
-		
 	}
 }

@@ -7,9 +7,10 @@ import java.sql.SQLException;
 import be.vvd.classes.*;
 import be.vvd.dao.*;
 
-public class UtilisateurDAO extends DAO<Utilisateur>{
+public class UtilisateurDAO implements DAO<Utilisateur>{
+	private Connection connect = null;
 	public UtilisateurDAO(Connection conn){
-		super(conn);
+		this.connect = conn;
 	}
 	
 	public boolean create(Utilisateur obj){		
@@ -25,24 +26,15 @@ public class UtilisateurDAO extends DAO<Utilisateur>{
 	}
 	
 	public Utilisateur find(int id){
-		Utilisateur user = new Utilisateur();
-		try{
-			ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Utilisateur WHERE id="+id);
-			if(result.next())
-				user = new Utilisateur(result.getString(1), result.getString(2), result.getString(3), result.getString(4),result.getString(5));
-		}
-		catch(SQLException e){
-			e.printStackTrace();
-		}
-		return user;
+		return null;
 	}
 	
-	public boolean findByEmail(String email,String password) {
+	public boolean login(Utilisateur user) {
 		try {
-			email = email.toLowerCase();
+			String email = user.getEmail().toLowerCase();
 			ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Utilisateur WHERE Email='"+email+"'");
 			if(result.next()) {
-				if(result.getString("Password").equals(password)) {
+				if(result.getString("Password").equals(user.getPassword())) {
 					return true;
 				}
 			}

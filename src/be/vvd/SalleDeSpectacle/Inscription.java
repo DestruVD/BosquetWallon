@@ -163,7 +163,7 @@ public class Inscription extends JFrame {
 				if(!pwd.equals(confirmPwd)) {
 					System.out.println("Les mots de passe sont différents ! ");
 				}else {
-					Utilisateur user = new Utilisateur(nom,prenom,adresse,role,email);
+					Utilisateur user = new Utilisateur(nom,prenom,adresse,role,email,pwd);
 					System.out.println(user.getRole());
 				}
 			}

@@ -18,7 +18,6 @@ public class test {
 			DAOFactory factory = (DAOFactory) DAOFactory.getFactory(0);
 			DAO<Utilisateur> dao = factory.getUtilisateurDAO();
 			Utilisateur user = dao.find(2);
-			System.out.println(user.getNom());
 			/*while(res.next())
             {
                 nom=res.getString(1);
@@ -29,4 +28,4 @@ public class test {
 		}
 	}
 
-}
+}		

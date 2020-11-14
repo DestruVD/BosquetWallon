@@ -7,7 +7,7 @@ import be.vvd.connexion.*;
 
 public class DAOFactory extends AbstractDAOFactory{
 protected static final Connection conn = connexion.getInstance();
-	public DAO<Utilisateur> getUtilisateurDAO() {
+	public UtilisateurDAO getUtilisateurDAO() {
 		return new UtilisateurDAO(conn);
 	}
 }

@@ -42,6 +42,7 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 470);
 		contentPane = new JPanel() {  
@@ -55,10 +56,11 @@ public class Main extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton Inscription = new JButton("Inscription");
+		Inscription.setBorder(null);
 		Inscription.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main.this.dispose();
-				Inscription insc = new Inscription();
+				InscriptionPage insc = new InscriptionPage();
 				insc.setVisible(true);
 			}
 		});
@@ -68,11 +70,14 @@ public class Main extends JFrame {
 		JLabel lblNewLabel = new JLabel("Bienvenu au Bosquet Wallon");
 		lblNewLabel.setFont(new Font("Calibri", Font.PLAIN, 30));
 		lblNewLabel.setMaximumSize(new Dimension(139, 30));
-		lblNewLabel.setForeground(new Color(204, 204, 0));
+		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setBounds(193, 52, 358, 107);
 		contentPane.add(lblNewLabel);
 		
 		JButton Connexion = new JButton("Connexion");
+		Connexion.setDefaultCapable(false);
+		Connexion.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		Connexion.setBorder(null);
 		Connexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main.this.dispose();

@@ -19,6 +19,8 @@ import com.toedter.calendar.JDayChooser;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JYearChooser;
 
+import be.vvd.classes.Representation;
+
 public class DashboardOrga extends JFrame {
 
 	private JPanel contentPane;
@@ -83,7 +85,8 @@ public class DashboardOrga extends JFrame {
 					e1.printStackTrace();
 				}
 				java.sql.Date date = new java.sql.Date(parsed.getTime());
-				System.out.println(date);
+				Representation rep = new Representation(date);
+				rep.ajouterRepresentation();
 			}
 		});
 		btnNewButton.setBounds(72, 203, 85, 21);

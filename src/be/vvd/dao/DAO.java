@@ -4,11 +4,11 @@ import java.sql.Connection;
 
 public interface DAO<T> {
 	
-	public abstract boolean create(T obj);
+	public boolean create(T obj);
 	
-	public abstract boolean delete(T obj);
+	public boolean delete(T obj);
 	
-	public abstract boolean update(T obj);
+	public boolean update(T obj);
 	
-	public abstract T find(int id);
+	public T find(int id);
 }

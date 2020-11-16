@@ -1,6 +1,7 @@
 package be.vvd.dao;
 
 import java.sql.Connection;
+import java.util.Set;
 
 public interface DAO<T> {
 	
@@ -11,4 +12,6 @@ public interface DAO<T> {
 	public boolean update(T obj);
 	
 	public T find(int id);
+	
+	public Set<T> findAll();
 }

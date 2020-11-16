@@ -1,7 +1,10 @@
 package be.vvd.dao;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 
 import be.vvd.classes.Client;
 import be.vvd.classes.Representation;
@@ -34,5 +37,20 @@ public class RepresentationDAO implements DAO<Representation>{
 
 	public Representation find(int id) {
 		return null;
+	}
+
+	public Set<Representation> findAll() {
+		Set<Representation> listRep = new HashSet<>();
+		try {			
+			ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Representation");
+			while(result.next()) {
+				Representation rep = new Representation(result.getString("Date"));
+				listRep.add(rep);
+			}
+			return listRep;
+		}catch(SQLException e) {		
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

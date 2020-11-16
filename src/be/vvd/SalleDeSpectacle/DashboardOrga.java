@@ -22,16 +22,20 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Set;
 import java.awt.event.ActionEvent;
 import com.toedter.calendar.JDayChooser;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JYearChooser;
 
 import be.vvd.classes.Representation;
+import javax.swing.DebugGraphics;
 
 public class DashboardOrga extends JFrame {
 
 	private JPanel contentPane;
+	private Component[] comp;
+	private int j=0;
 
 	/**
 	 * Launch the application.
@@ -53,6 +57,7 @@ public class DashboardOrga extends JFrame {
 	 * Create the frame.
 	 */
 	public DashboardOrga() {
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 470);
@@ -77,32 +82,16 @@ public class DashboardOrga extends JFrame {
 		btnDeconnexion.setBounds(10, 10, 114, 21);
 		contentPane.add(btnDeconnexion);
 		
+		
 		JCalendar calendar = new JCalendar();
 		calendar.addPropertyChangeListener(new PropertyChangeListener() {
 	        @Override
 	        public void propertyChange(PropertyChangeEvent e) {
-	        	Component comp[] = calendar.getDayChooser().getDayPanel().getComponents();
-	        	
+	        	Set<Representation> listRep = Representation.findAll();
+	        	DashboardOrga.this.comp = calendar.getDayChooser().getDayPanel().getComponents();
 	        	int day = calendar.getDayChooser().getDay();
 	    		int month = calendar.getMonthChooser().getMonth();		
 	    		int year = calendar.getYearChooser().getYear();
-	    		
-	    		
-	    		
-	    		String str = "30-11-2020";
-	    		
-	    		String daydb = str.substring(0,2);
-	    		String monthdb = str.substring(3,5);
-	    		String yeardb = str.substring(6,10);
-	    		if(daydb.lastIndexOf('0')==0) {
-	    			daydb = daydb.substring(1,2);
-	    		}
-	    		
-	    		System.out.println(daydb);
-	    		System.out.println(monthdb);
-	    		System.out.println(yeardb);
-	    		System.out.println(month);
-	    		System.out.println(year);
 	    		
 	    		 Calendar cal = Calendar.getInstance();
 	    	     cal.set(Calendar.MONTH, month);
@@ -112,10 +101,6 @@ public class DashboardOrga extends JFrame {
 	    	
 	    	     DateFormat sdf = new SimpleDateFormat("EEEEEEEE");   
 	    	     String strfirstDayOMonth = sdf.format(firstDayOfMonth);
-	    	     
-	    	     System.out.println(strfirstDayOMonth);
-	    	     
-	    	     int j=0;
 	    	     
 	    	     switch(strfirstDayOMonth) {
 	    	     	case "Sunday" -> j=0;
@@ -128,10 +113,19 @@ public class DashboardOrga extends JFrame {
 	    	     }
 	    		
 	    		for(int i = 7+j ; i<comp.length;i++) {
-	    			if(Integer.parseInt(yeardb)==year && Integer.parseInt(monthdb)==month+1) {
-	    				if(i-((7+j)+1)==Integer.parseInt(daydb)) {
-	    					comp[i-2].setBackground(new Color(255,0,0));
-	    					comp[i-2].setEnabled(false);
+	    			for(var item : listRep) {
+	    				String date = item.getDate();
+	    				String daydb = date.substring(0,2);
+	    	    		String monthdb = date.substring(3,5);
+	    	    		String yeardb = date.substring(6,10);
+	    	    		if(daydb.lastIndexOf('0')==0) {
+	    	    			daydb = daydb.substring(1,2);
+	    	    		}
+	    				if(Integer.parseInt(yeardb)==year && Integer.parseInt(monthdb)==month+1) {
+	    					if(i-((7+j)+1)==Integer.parseInt(daydb)) {
+	    						comp[i-2].setBackground(new Color(255,0,0));
+	    						comp[i-2].setEnabled(false);
+	    					}
 	    				}
 	    			}
 	    		}
@@ -148,14 +142,11 @@ public class DashboardOrga extends JFrame {
 				java.util.Date parsed=null;
 				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
 				String strDate = format1.format(calendar.getDate());
-				try {
-					parsed = format1.parse(strDate);
-				} catch (ParseException e1) {
-					e1.printStackTrace();
-				}
-				java.sql.Date date = new java.sql.Date(parsed.getTime());
-				Representation rep = new Representation(date);
-				
+				Representation rep = new Representation(strDate);
+				String day = strDate.substring(0,2);
+				int dayInt = Integer.parseInt(day);
+				comp[7+j+dayInt-1].setEnabled(false);
+				comp[7+j+dayInt-1].setBackground(new Color(255,0,0));
 				rep.ajouterRepresentation();
 			}
 		});

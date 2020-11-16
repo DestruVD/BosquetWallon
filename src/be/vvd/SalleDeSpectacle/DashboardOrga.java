@@ -1,6 +1,7 @@
 package be.vvd.SalleDeSpectacle;
 
 import java.awt.BorderLayout;
+import be.vvd.classes.*;
 import java.awt.Color;
 import java.awt.Component;
 import java.sql.Date;
@@ -28,13 +29,15 @@ import com.toedter.calendar.JDayChooser;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JYearChooser;
 
-import be.vvd.classes.Representation;
+import be.vvd.classes.PlanningSalle;
 import javax.swing.DebugGraphics;
 
 public class DashboardOrga extends JFrame {
 
 	private JPanel contentPane;
-	private Component[] comp;
+	private Component[] compFirstCalendar;
+	private Component[] compSecondCalendar;
+	private int [] dayPerMonth= {31,0,31,30,31,30,31,31,30,31,30,31};
 	private int j=0;
 
 	/**
@@ -87,8 +90,8 @@ public class DashboardOrga extends JFrame {
 		calendar.addPropertyChangeListener(new PropertyChangeListener() {
 	        @Override
 	        public void propertyChange(PropertyChangeEvent e) {
-	        	Set<Representation> listRep = Representation.findAll();
-	        	DashboardOrga.this.comp = calendar.getDayChooser().getDayPanel().getComponents();
+	        	Set<PlanningSalle> listRep = PlanningSalle.findAll();
+	        	DashboardOrga.this.compFirstCalendar = calendar.getDayChooser().getDayPanel().getComponents();
 	        	int day = calendar.getDayChooser().getDay();
 	    		int month = calendar.getMonthChooser().getMonth();		
 	    		int year = calendar.getYearChooser().getYear();
@@ -112,45 +115,214 @@ public class DashboardOrga extends JFrame {
 	    	     	case "Saturday" -> j=6;
 	    	     }
 	    		
-	    		for(int i = 7+j ; i<comp.length;i++) {
-	    			for(var item : listRep) {
-	    				String date = item.getDate();
-	    				String daydb = date.substring(0,2);
-	    	    		String monthdb = date.substring(3,5);
-	    	    		String yeardb = date.substring(6,10);
-	    	    		if(daydb.lastIndexOf('0')==0) {
-	    	    			daydb = daydb.substring(1,2);
-	    	    		}
-	    				if(Integer.parseInt(yeardb)==year && Integer.parseInt(monthdb)==month+1) {
-	    					if(i-((7+j)+1)==Integer.parseInt(daydb)) {
-	    						comp[i-2].setBackground(new Color(255,0,0));
-	    						comp[i-2].setEnabled(false);
-	    					}
-	    				}
-	    			}
-	    		}
+//	    		for(int i = 7+j ; i<comp.length;i++) {
+//	    			for(var item : listRep) {
+//	    				String dateDebutR = item.getDateDebutR();
+//	    				String dateFinR = item.getDateFinR();
+//	    				String daydb = date.substring(0,2);
+//	    	    		String monthdb = date.substring(3,5);
+//	    	    		String yeardb = date.substring(6,10);
+//	    	    		if(daydb.lastIndexOf('0')==0) {
+//	    	    			daydb = daydb.substring(1,2);
+//	    	    		}
+//	    				if(Integer.parseInt(yeardb)==year && Integer.parseInt(monthdb)==month+1) {
+//	    					if(i-((7+j)+1)==Integer.parseInt(daydb)) {
+//	    						comp[i-2].setBackground(new Color(255,0,0));
+//	    						comp[i-2].setEnabled(false);
+//	    					}
+//	    				}
+//	    			}
+//	    		}
 	    		
 	        }
 	    });
 		calendar.setBounds(10, 41, 206, 152);
-		
 		contentPane.add(calendar);
+		
+		JCalendar secondCalendar = new JCalendar();
+		secondCalendar.setBounds(10, 234, 206, 152);
+		secondCalendar.addPropertyChangeListener(new PropertyChangeListener() {
+	        @Override
+	        public void propertyChange(PropertyChangeEvent e) {
+	        	Set<PlanningSalle> listRep = PlanningSalle.findAll();
+	        	DashboardOrga.this.compSecondCalendar = secondCalendar.getDayChooser().getDayPanel().getComponents();
+	        	int day = calendar.getDayChooser().getDay();
+	    		int month = calendar.getMonthChooser().getMonth();		
+	    		int year = calendar.getYearChooser().getYear();
+	    		
+	    		 Calendar cal = Calendar.getInstance();
+	    	     cal.set(Calendar.MONTH, month);
+	    	     cal.set(Calendar.YEAR, year);
+	    	     cal.set(Calendar.DAY_OF_MONTH, 1);
+	    	     java.util.Date firstDayOfMonth = cal.getTime();  
+	    	
+	    	     DateFormat sdf = new SimpleDateFormat("EEEEEEEE");   
+	    	     String strfirstDayOMonth = sdf.format(firstDayOfMonth);
+	    	     
+	    	     switch(strfirstDayOMonth) {
+	    	     	case "Sunday" -> j=0;
+	    	     	case "Monday" -> j=1;
+	    	     	case "Tuesday" -> j=2;
+	    	     	case "Wednesday" -> j=3;
+	    	     	case "Thursday" -> j=4;
+	    	     	case "Friday" -> j=5;
+	    	     	case "Saturday" -> j=6;
+	    	     }
+	    		
+//	    		for(int i = 7+j ; i<comp.length;i++) {
+//	    			for(var item : listRep) {
+//	    				String dateDebutR = item.getDateDebutR();
+//	    				String dateFinR = item.getDateFinR();
+//	    				String daydb = date.substring(0,2);
+//	    	    		String monthdb = date.substring(3,5);
+//	    	    		String yeardb = date.substring(6,10);
+//	    	    		if(daydb.lastIndexOf('0')==0) {
+//	    	    			daydb = daydb.substring(1,2);
+//	    	    		}
+//	    				if(Integer.parseInt(yeardb)==year && Integer.parseInt(monthdb)==month+1) {
+//	    					if(i-((7+j)+1)==Integer.parseInt(daydb)) {
+//	    						comp[i-2].setBackground(new Color(255,0,0));
+//	    						comp[i-2].setEnabled(false);
+//	    					}
+//	    				}
+//	    			}
+//	    		}
+	    		
+	        }
+	    });
+		contentPane.add(secondCalendar);
 		
 		JButton btnNewButton = new JButton("New button");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				java.util.Date parsed=null;
 				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
-				String strDate = format1.format(calendar.getDate());
-				Representation rep = new Representation(strDate);
-				String day = strDate.substring(0,2);
-				int dayInt = Integer.parseInt(day);
-				comp[7+j+dayInt-1].setEnabled(false);
-				comp[7+j+dayInt-1].setBackground(new Color(255,0,0));
-				rep.ajouterRepresentation();
+				String strDateDebutR = format1.format(calendar.getDate());
+				String strDateFinR = format1.format(secondCalendar.getDate());
+ 				PlanningSalle res = new PlanningSalle(strDateDebutR,strDateFinR);
+ 				
+				String dayDebutR = strDateDebutR.substring(0,2);
+				String monthDebutR= strDateDebutR.substring(3,5);
+				String yearDebutR= strDateDebutR.substring(6,10);
+				
+				String dayFinR = strDateFinR.substring(0,2);
+				String monthFinR= strDateFinR.substring(3,5);
+				String yearFinR= strDateFinR.substring(6,10);
+				
+				int dayDebutRInt = Integer.parseInt(dayDebutR);
+				int monthDebutRInt = Integer.parseInt(monthDebutR);
+				int yearDebutRInt = Integer.parseInt(yearDebutR);
+				
+				be.vvd.classes.Date dateDebutR = new be.vvd.classes.Date(dayDebutRInt,monthDebutRInt,yearDebutRInt);
+				
+				int dayFinRInt = Integer.parseInt(dayFinR);
+				int monthFinRInt = Integer.parseInt(monthFinR);
+				int yearFinRInt = Integer.parseInt(yearFinR);
+				
+				be.vvd.classes.Date dateFinR = new be.vvd.classes.Date(dayFinRInt,monthFinRInt,yearFinRInt);
+				
+				int jourEntreDates = be.vvd.classes.Date.betweenTwoDate(dateDebutR, dateFinR);
+				
+				int k=0;
+				boolean flag=false;
+				if(dateDebutR.getMonth()!=dateFinR.getMonth()) {
+					for(int i=0;i<=jourEntreDates;i++) {
+						if(dateDebutR.getDay()<dateDebutR.getDayPerMonth()[dateDebutR.getMonth()-1]) {	
+							if(dateDebutR.getMonth()==secondCalendar.getMonthChooser().getMonth()+1) {
+								if(flag==false) {
+									Calendar cal = Calendar.getInstance();
+									
+									cal.set(Calendar.MONTH, dateDebutR.getMonth()-1);
+									cal.set(Calendar.YEAR, secondCalendar.getYearChooser().getYear());
+									cal.set(Calendar.DAY_OF_MONTH, 1);
+									java.util.Date firstDayOfMonth = cal.getTime();
+									
+									DateFormat sdf = new SimpleDateFormat("EEEEEEEE");   
+									String strfirstDayOMonth = sdf.format(firstDayOfMonth);
+									
+									switch(strfirstDayOMonth) {
+									case "Sunday" -> j=0;
+									case "Monday" -> j=1;
+									case "Tuesday" -> j=2;
+									case "Wednesday" -> j=3;
+									case "Thursday" -> j=4;
+									case "Friday" -> j=5;
+									case "Saturday" -> j=6;
+									}
+									flag=true;
+								}
+								
+								compSecondCalendar[7+j+k].setEnabled(false);
+								compSecondCalendar[7+j+k].setBackground(new Color(255,0,0));
+								k++;
+							}else if(dateDebutR.getMonth()==calendar.getMonthChooser().getMonth()+1) {
+								if(dateDebutR.getDay()==dateDebutR.getDayPerMonth()[dateDebutR.getMonth()-1]-1) {
+									compFirstCalendar[7+j+dateDebutR.getDay()].setEnabled(false);
+									compFirstCalendar[7+j+dateDebutR.getDay()].setBackground(new Color(255,0,0));
+								}
+								compFirstCalendar[7+j+dateDebutR.getDay()-1].setEnabled(false);
+								compFirstCalendar[7+j+dateDebutR.getDay()-1].setBackground(new Color(255,0,0));
+							}
+							dateDebutR.add1Day();
+						}else {
+							dateDebutR.setDay(1);
+							if(dateDebutR.getMonth()<dateDebutR.getDayPerMonth().length) {
+								dateDebutR.add1Month();
+								
+							}else {
+								dateDebutR.setMonth(1);
+								dateDebutR.add1Year();
+								boolean bool = be.vvd.classes.Date.isBissextile(dateDebutR.getYear());
+								if(bool) {
+									dateDebutR.setDayPerMonth(1,29);
+								}else {
+									dateDebutR.setDayPerMonth(1,28);
+								}
+							}
+						}
+					}
+				}else {					
+					for(int i=0;i<=jourEntreDates;i++) {
+						if(dateDebutR.getDay()<dateDebutR.getDayPerMonth()[dateDebutR.getMonth()-1]) {	
+							if(dateDebutR.getDay()==dateDebutR.getDayPerMonth()[dateDebutR.getMonth()-1]-1) {
+								compFirstCalendar[7+j+dateDebutR.getDay()-1].setEnabled(false);
+								compFirstCalendar[7+j+dateDebutR.getDay()-1].setBackground(new Color(255,0,0));
+								compSecondCalendar[7+j+dateDebutR.getDay()-1].setEnabled(false);
+								compSecondCalendar[7+j+dateDebutR.getDay()-1].setBackground(new Color(255,0,0));
+								compFirstCalendar[7+j+dateDebutR.getDay()].setEnabled(false);
+								compFirstCalendar[7+j+dateDebutR.getDay()].setBackground(new Color(255,0,0));
+								compSecondCalendar[7+j+dateDebutR.getDay()].setEnabled(false);
+								compSecondCalendar[7+j+dateDebutR.getDay()].setBackground(new Color(255,0,0));
+							}
+							compFirstCalendar[7+j+dateDebutR.getDay()-1].setEnabled(false);
+							compFirstCalendar[7+j+dateDebutR.getDay()-1].setBackground(new Color(255,0,0));
+							compSecondCalendar[7+j+dateDebutR.getDay()-1].setEnabled(false);
+							compSecondCalendar[7+j+dateDebutR.getDay()-1].setBackground(new Color(255,0,0));
+							dateDebutR.add1Day();
+						}else {
+							dateDebutR.setDay(1);
+							if(dateDebutR.getMonth()<dateDebutR.getDayPerMonth().length) {
+								dateDebutR.add1Month();
+								
+							}else {
+								dateDebutR.setMonth(1);
+								dateDebutR.add1Year();
+								boolean bool = be.vvd.classes.Date.isBissextile(dateDebutR.getYear());
+								if(bool) {
+									dateDebutR.setDayPerMonth(1,29);
+								}else {
+									dateDebutR.setDayPerMonth(1,28);
+								}
+							}
+						}
+					}
+				}
+				res.ajouterRepresentation();
 			}
 		});
 		btnNewButton.setBounds(72, 203, 85, 21);
 		contentPane.add(btnNewButton);
 	}
+	
+	
 }

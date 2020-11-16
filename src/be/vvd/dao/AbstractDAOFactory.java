@@ -7,7 +7,7 @@ public abstract class AbstractDAOFactory {
 	public static final int XML_DAO_FACTORY = 1;
 	
 	public abstract DAO<Utilisateur> getUtilisateurDAO();
-	public abstract DAO<Representation> getRepresentationDAO();
+	public abstract DAO<PlanningSalle> getPlanningSalleDAO();
 	
 	public static AbstractDAOFactory getFactory(int type){
 		switch(type){

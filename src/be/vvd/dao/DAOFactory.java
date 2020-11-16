@@ -11,7 +11,7 @@ protected static final Connection conn = connexion.getInstance();
 	public UtilisateurDAO getUtilisateurDAO() {
 		return new UtilisateurDAO(conn);
 	}
-	public RepresentationDAO getRepresentationDAO() {
-		return new RepresentationDAO(conn);
+	public PlanningSalleDAO getPlanningSalleDAO() {
+		return new PlanningSalleDAO(conn);
 	}
 }

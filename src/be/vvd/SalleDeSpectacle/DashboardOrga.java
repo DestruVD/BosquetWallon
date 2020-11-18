@@ -21,6 +21,8 @@ import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Set;
@@ -90,10 +92,10 @@ public class DashboardOrga extends JFrame {
 	        @Override
 	        public void propertyChange(PropertyChangeEvent e) {
 	        	Set<PlanningSalle> listRep = PlanningSalle.findAll();
+	        	
 	        	DashboardOrga.this.compFirstCalendar = calendar.getDayChooser().getDayPanel().getComponents();
-	        	int day = calendar.getDayChooser().getDay();
+	        	
 	    		int month = calendar.getMonthChooser().getMonth();
-	    		
 	    		int year = calendar.getYearChooser().getYear();
 	    		
 	    		 Calendar cal = Calendar.getInstance();
@@ -105,6 +107,13 @@ public class DashboardOrga extends JFrame {
 	    	     DateFormat sdf = new SimpleDateFormat("EEEEEEEE");   
 	    	     String strfirstDayOMonth = sdf.format(firstDayOfMonth);
 	    	     
+	    	     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
+	    	     LocalDateTime now = LocalDateTime.now();  
+	    	     
+	    	     String todayDay = dtf.format(now).substring(0,2);
+ 				 String todayMonth = dtf.format(now).substring(3,5);
+ 				 String todayYear = dtf.format(now).substring(6,10);
+	    	     
 	    	     switch(strfirstDayOMonth) {
 	    	     	case "Sunday" -> j=0;
 	    	     	case "Monday" -> j=1;
@@ -114,6 +123,20 @@ public class DashboardOrga extends JFrame {
 	    	     	case "Friday" -> j=5;
 	    	     	case "Saturday" -> j=6;
 	    	     }
+	    	     
+	    	     if(month+1<Integer.parseInt(todayMonth) && year<=Integer.parseInt(todayYear)) {
+ 					 for(int l= 7+j ; l < compFirstCalendar.length;l++) {
+ 						compFirstCalendar[l].setEnabled(false);
+ 					 }
+ 				 }else if(year<Integer.parseInt(todayYear)) {
+ 					for(int l= 7+j ; l < compFirstCalendar.length;l++) {
+ 						compFirstCalendar[l].setEnabled(false);
+ 					 }
+ 				 }else if(month+1==Integer.parseInt(todayMonth) && year==Integer.parseInt(todayYear)) {
+ 					for(int l= 7+j ; l < compFirstCalendar.length && l-(7+j)+1 <Integer.parseInt(todayDay);l++) {
+ 						compFirstCalendar[l].setEnabled(false);
+ 					 }
+ 				 }
 	    	     
 	    		for(int i = 7+j ; i<compFirstCalendar.length;i++) {
 	    			for(var item : listRep) {
@@ -197,6 +220,13 @@ public class DashboardOrga extends JFrame {
 	    	     DateFormat sdf = new SimpleDateFormat("EEEEEEEE");   
 	    	     String strfirstDayOMonth = sdf.format(firstDayOfMonth);
 	    	     
+	    	     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
+	    	     LocalDateTime now = LocalDateTime.now();  
+	    	     
+	    	     String todayDay = dtf.format(now).substring(0,2);
+ 				 String todayMonth = dtf.format(now).substring(3,5);
+ 				 String todayYear = dtf.format(now).substring(6,10);
+	    	     
 	    	     switch(strfirstDayOMonth) {
 	    	     	case "Sunday" -> j=0;
 	    	     	case "Monday" -> j=1;
@@ -206,6 +236,20 @@ public class DashboardOrga extends JFrame {
 	    	     	case "Friday" -> j=5;
 	    	     	case "Saturday" -> j=6;
 	    	     }
+	    	     
+	    	     if(secondCalendarMonth+1<Integer.parseInt(todayMonth) && secondCalendarYear<=Integer.parseInt(todayYear)) {
+ 					 for(int l= 7+j ; l < compSecondCalendar.length;l++) {
+ 						compSecondCalendar[l].setEnabled(false);
+ 					 }
+ 				 }else if(secondCalendarYear<Integer.parseInt(todayYear)) {
+ 					for(int l= 7+j ; l < compSecondCalendar.length;l++) {
+ 						compSecondCalendar[l].setEnabled(false);
+ 					 }
+ 				 }else if(secondCalendarMonth+1==Integer.parseInt(todayMonth) && secondCalendarYear==Integer.parseInt(todayYear)) {
+ 					for(int l= 7+j ; l < compSecondCalendar.length && l-(7+j)+1 <Integer.parseInt(todayDay);l++) {
+ 						compSecondCalendar[l].setEnabled(false);
+ 					 }
+ 				 }
 	    	     
 	    		for(int i = 7+j ; i<compSecondCalendar.length;i++) {
 	    			for(var item : listRep) {
@@ -333,11 +377,11 @@ public class DashboardOrga extends JFrame {
 									k++;
 								}else if(dateDebutR.getMonth()==calendar.getMonthChooser().getMonth()+1) {
 									if(dateDebutR.getDay()==dateDebutR.getDayPerMonth()[dateDebutR.getMonth()-1]-1) {
-										compFirstCalendar[7+j+dateDebutR.getDay()].setEnabled(false);
-										compFirstCalendar[7+j+dateDebutR.getDay()].setBackground(new Color(255,0,0));
+										compFirstCalendar[7+j+dateDebutR.getDay()-2].setEnabled(false);
+										compFirstCalendar[7+j+dateDebutR.getDay()-2].setBackground(new Color(255,0,0));
 									}
-									compFirstCalendar[7+j+dateDebutR.getDay()-1].setEnabled(false);
-									compFirstCalendar[7+j+dateDebutR.getDay()-1].setBackground(new Color(255,0,0));
+									compFirstCalendar[7+j+dateDebutR.getDay()-3].setEnabled(false);
+									compFirstCalendar[7+j+dateDebutR.getDay()-3].setBackground(new Color(255,0,0));
 								}
 								dateDebutR.add1Day();
 							}else {

@@ -8,7 +8,6 @@ import java.util.Set;
 
 import be.vvd.classes.Client;
 import be.vvd.classes.PlanningSalle;
-import be.vvd.classes.Representation;
 import be.vvd.classes.Utilisateur;
 
 public class PlanningSalleDAO implements DAO<PlanningSalle>{
@@ -21,9 +20,10 @@ public class PlanningSalleDAO implements DAO<PlanningSalle>{
 
 	public boolean create(PlanningSalle rep){
 		try {			
-			this.connect.createStatement().executeUpdate("INSERT INTO Representation VALUES(null,'"+rep.getDateDebutR()+"','"+rep.getDateFinR()+"')");
+			this.connect.createStatement().executeUpdate("INSERT INTO PlanningSalle VALUES(null,'"+rep.getDateDebutR()+"','"+rep.getDateFinR()+"')");
 			return true;
 		}catch(SQLException e) {
+			e.printStackTrace();
 			return false;
 		}
 	}

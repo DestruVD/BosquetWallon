@@ -13,7 +13,7 @@ public class PlanningSalle {
 	private String dateFinR;
 	
 	public PlanningSalle(String dateDebutR, String dateFinR) {
-		this.dateDebutR=dateFinR;
+		this.dateDebutR=dateDebutR;
 		this.dateFinR=dateFinR;
 	}
 	

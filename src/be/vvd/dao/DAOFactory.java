@@ -2,7 +2,6 @@ package be.vvd.dao;
 
 import java.sql.Connection;
 
-import be.vvd.classes.Representation;
 import be.vvd.classes.Utilisateur;
 import be.vvd.connexion.*;
 

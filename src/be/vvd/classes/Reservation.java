@@ -1,7 +1,6 @@
 package be.vvd.classes;
 
 import be.vvd.dao.DAOFactory;
-import be.vvd.dao.PlanningSalleDAO;
 import be.vvd.dao.ReservationDAO;
 
 import java.util.Set;
@@ -36,6 +35,14 @@ public class Reservation {
 	
 	public String getDateFinR() {
 		return this.planning.getDateFinR();
+	}
+	
+	public String getTitre() {
+		return this.planning.getTitre();
+	}
+	
+	public int getPlaceMax(){
+		return this.planning.getPlaceMax();
 	}
 	
 	public int getPrix() {

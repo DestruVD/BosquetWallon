@@ -1,9 +1,7 @@
 package be.vvd.classes;
 
 import java.util.Set;
-
 import be.vvd.dao.DAOFactory;
-import be.vvd.dao.PlanningSalleDAO;
 
 public class PlanningSalle {
 	private String dateDebutR;
@@ -19,6 +17,14 @@ public class PlanningSalle {
 		this.dateDebutR=dateDebutR;
 		this.dateFinR=dateFinR;
 		this.spectacle=spectacle;
+	}
+	
+	public String getTitre(){
+		return this.spectacle.getTitre();
+	}
+	
+	public int getPlaceMax(){
+		return this.spectacle.getPlaceMax();
 	}
 	
 	public String getDateDebutR(){

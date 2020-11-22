@@ -20,7 +20,12 @@ public class ReservationDAO implements DAO<Reservation>{
 	@Override
 	public boolean create(Reservation obj) {
 		try {
-			this.connect.createStatement().executeUpdate("INSERT INTO Reservation VALUES(null,'"+obj.getAccompte()+"','"+obj.getSolde()+"','"+obj.getStatut()+"','"+obj.getPrix()+"','"+obj.getDateDebutR()+"','"+obj.getDateFinR()+"')");
+			int id=0;
+			ResultSet res = this.connect.createStatement().executeQuery("SELECT * FROM Spectacle WHERE titre='"+obj.getTitre()+"'");
+			if(res.next()) {
+				id = res.getInt("id");
+			}
+			this.connect.createStatement().executeUpdate("INSERT INTO Reservation VALUES(null,'"+obj.getAccompte()+"','"+obj.getSolde()+"','"+obj.getStatut()+"','"+obj.getPrix()+"','"+obj.getDateDebutR()+"','"+obj.getDateFinR()+"','"+id+"')");
 			return true;
 		}catch(SQLException e) {
 			e.printStackTrace();

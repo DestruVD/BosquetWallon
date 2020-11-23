@@ -3,6 +3,7 @@ package be.vvd.dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Set;
 
 import be.vvd.classes.*;
 import be.vvd.dao.*;
@@ -66,5 +67,9 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
 			e.printStackTrace();
 			return null; 
 		}
+	}
+
+	public Set<Utilisateur> findAll() {
+		return null;
 	}
 }

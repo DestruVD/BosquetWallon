@@ -66,7 +66,7 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
 		}catch(SQLException e) {
 			e.printStackTrace();
 			return null; 
-		}
+		}	
 	}
 
 	public Set<Utilisateur> findAll() {

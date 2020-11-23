@@ -196,26 +196,30 @@ public class InscriptionForm extends JFrame {
 				String confirmPwd = tfConfirmPassword.getText();
 				String numTel="";
 				String numBanque="";
-				if(InscriptionForm.this.client) {
-					numTel = tfTelephone.getText();
-				}else if(InscriptionForm.this.orga) {
-					numBanque= tfNumCpt.getText();
-				}
-				if(!pwd.equals(confirmPwd)) {
-					System.out.println("Les mots de passe sont différents ! ");
-				}else {
-					if(InscriptionForm.this.client) {						
-						Client client = new Client(nom,prenom,adresse,role,email,pwd,numTel);
-						client.register();
+				if(nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || adresse.isEmpty() || pwd.isEmpty() || confirmPwd.isEmpty()) {
+					System.out.println("Formulaire incorrect");
+				}else {					
+					if(InscriptionForm.this.client) {
+						numTel = tfTelephone.getText();
 					}else if(InscriptionForm.this.orga) {
-						Organisateur orga = new Organisateur(nom,prenom,adresse,role,email,pwd,numBanque);
-						orga.register();
-					}else {
-						System.out.println("Create an Gestionnary");
+						numBanque= tfNumCpt.getText();
 					}
-					InscriptionForm.this.dispose();
-					Main main = new Main();
-					main.setVisible(true);
+					if(!pwd.equals(confirmPwd) || numTel.isEmpty() || numBanque.isEmpty()) {
+						System.out.println("Le formulaire est incorrect ");
+					}else {
+						if(InscriptionForm.this.client) {						
+							Client client = new Client(nom,prenom,adresse,role,email,pwd,numTel);
+							client.register();
+						}else if(InscriptionForm.this.orga) {
+							Organisateur orga = new Organisateur(nom,prenom,adresse,role,email,pwd,numBanque);
+							orga.register();
+						}else {
+							System.out.println("Create an Gestionnary");
+						}
+						InscriptionForm.this.dispose();
+						Main main = new Main();
+						main.setVisible(true);
+					}
 				}
 			}
 		});

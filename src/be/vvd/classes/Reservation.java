@@ -20,7 +20,7 @@ public class Reservation {
 	public Reservation(PlanningSalle planning ,int prix) {
 		this.planning=planning;
 		this.prix=prix;
-		this.statut="Actif";
+		this.statut="Non payé";
 		this.solde=3000;
 		this.accompte=prix / 100 * 40;
 	}

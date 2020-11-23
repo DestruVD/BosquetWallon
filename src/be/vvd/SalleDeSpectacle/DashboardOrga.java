@@ -332,13 +332,10 @@ public class DashboardOrga extends JFrame {
 		JButton btnReserver = new JButton("R\u00E9server");
 		btnReserver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Set<Spectacle> listSpec = Spectacle.findAll();
 				Spectacle specToAdd = null;
 				for(var item : listSpec) {
 					String titreFromDB = item.getTitre();
 					String titre= (String) comboBox.getSelectedItem();
-					System.out.println(titreFromDB.getClass());
-					System.out.println(titre.getClass());
 					if(titreFromDB.equals(titre)) {
 						specToAdd=item;
 					}
@@ -349,7 +346,6 @@ public class DashboardOrga extends JFrame {
 				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
 				String strDateDebutR = format1.format(calendar.getDate());
 				String strDateFinR = format1.format(secondCalendar.getDate());
-				System.out.println(specToAdd);
  				PlanningSalle planning = new PlanningSalle(strDateDebutR,strDateFinR,specToAdd);
  				
 				String dayDebutR = strDateDebutR.substring(0,2);

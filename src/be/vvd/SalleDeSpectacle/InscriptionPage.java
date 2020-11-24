@@ -57,7 +57,7 @@ public class InscriptionPage extends JFrame {
 		contentPane.setLayout(null);
 		
 		Panel panel = new Panel();
-		panel.setBounds(195, 61, 351, 197);
+		panel.setBounds(195, 61, 351, 123);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -69,7 +69,7 @@ public class InscriptionPage extends JFrame {
 				insc.setVisible(true);
 			}
 		});
-		Client.setBounds(111, 32, 130, 21);
+		Client.setBounds(111, 21, 130, 21);
 		panel.add(Client);
 		
 		JButton Organisateur = new JButton("Organisateur");
@@ -80,19 +80,19 @@ public class InscriptionPage extends JFrame {
 				insc.setVisible(true);
 			}
 		});
-		Organisateur.setBounds(111, 82, 130, 21);
+		Organisateur.setBounds(111, 52, 130, 21);
 		panel.add(Organisateur);
 		
-		JButton Gestionnaire = new JButton("Gestionnaire");
-		Gestionnaire.addActionListener(new ActionListener() {
+		JButton Artiste = new JButton("Artiste");
+		Artiste.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InscriptionPage.this.dispose();
-				InscriptionForm insc = new InscriptionForm("Gestionnaire");
+				InscriptionForm insc = new InscriptionForm("Artiste");
 				insc.setVisible(true);
 			}
 		});
-		Gestionnaire.setBounds(111, 135, 130, 21);
-		panel.add(Gestionnaire);
+		Artiste.setBounds(111, 83, 130, 21);
+		panel.add(Artiste);
 		
 		JButton Retour = new JButton("Retour");
 		Retour.addActionListener(new ActionListener() {
@@ -105,11 +105,11 @@ public class InscriptionPage extends JFrame {
 		Retour.setBounds(10, 10, 85, 21);
 		contentPane.add(Retour);
 		
-		JLabel Choice = new JLabel("Choice");
+		JLabel Choice = new JLabel("Choisissez votre type de compte");
 		Choice.setForeground(Color.WHITE);
 		Choice.setFont(new Font("Calibri", Font.PLAIN, 25));
 		Choice.setHorizontalAlignment(SwingConstants.CENTER);
-		Choice.setBounds(195, 10, 351, 37);
+		Choice.setBounds(182, 10, 380, 37);
 		contentPane.add(Choice);
 	}
 }

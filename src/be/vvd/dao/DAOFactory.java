@@ -14,6 +14,15 @@ protected static final Connection conn = connexion.getInstance();
 	public ReservationDAO getReservationDAO() {
 		return new ReservationDAO(conn);
 	}
+	
+	public CategorieDAO getCategorieDAO() {
+		return new CategorieDAO(conn);
+	}
+	
+	public ConfigurationDAO getConfigurationDAO() {
+		return new ConfigurationDAO(conn);
+	}
+	
 	public SpectacleDAO getSpectacleDAO() {
 		return new SpectacleDAO(conn);
 	}

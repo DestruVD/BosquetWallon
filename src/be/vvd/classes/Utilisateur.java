@@ -5,12 +5,12 @@ import be.vvd.dao.UtilisateurDAO;
 
 public class Utilisateur{
 	
-	protected String nom = "";
-	protected String prenom = "";
-	protected String adresse = "";
-	protected String role = "";
-	protected String email = "";
-	protected String password ="";
+	protected String nom;
+	protected String prenom;
+	protected String adresse;
+	protected String role;
+	protected String email;
+	protected String password;
 	
 	protected static DAOFactory factory = (DAOFactory) DAOFactory.getFactory(0);
 	protected static UtilisateurDAO dao = factory.getUtilisateurDAO();
@@ -29,6 +29,14 @@ public class Utilisateur{
 	public Utilisateur(String email, String password) {
 		this.email=email;
 		this.password=password;
+	}
+	
+	public void setNom(String nom) {
+		this.nom=nom;
+	}
+	
+	public void setPrenom(String prenom) {
+		this.prenom=prenom;
 	}
 	
 	public String getNom() {

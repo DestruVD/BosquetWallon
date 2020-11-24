@@ -1,8 +1,10 @@
 package be.vvd.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,7 +23,25 @@ public class SpectacleDAO implements DAO<Spectacle> {
 	@Override
 	public boolean create(Spectacle obj) {
 		try {
-			this.connect.createStatement().executeUpdate("INSERT INTO Spectacle VALUES(null,'"+obj.getTitre()+"','"+obj.getPlaceMax()+"')");
+			long idSpec=0;
+			Set<Long> idArtistes = new HashSet<Long>();
+			for(var item : obj.getListArtiste()) {
+				String nom = item.split(" ")[0];
+				String prenom = item.split(" ")[1];
+				ResultSet res = this.connect.createStatement().executeQuery("SELECT id FROM Artiste WHERE nom='"+nom+"' AND prenom='"+prenom+"'");
+				if(res.next()) {
+					idArtistes.add(res.getLong("id"));
+				}
+			}
+			PreparedStatement statement = this.connect.prepareStatement("INSERT INTO Spectacle VALUES(null,'"+obj.getTitre()+"','"+obj.getPlaceMax()+"','"+obj.getIDConfig()+"')",Statement.RETURN_GENERATED_KEYS);
+			statement.executeUpdate();
+			ResultSet res = statement.getGeneratedKeys();
+			if(res.next()) {
+				idSpec = res.getLong(1);
+			}
+			for(var item : idArtistes) {				
+				this.connect.createStatement().executeUpdate("INSERT INTO Spectacle_Artiste VALUES ('"+idSpec+"','"+item+"')");
+			}
 			return true;
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -53,8 +73,8 @@ public class SpectacleDAO implements DAO<Spectacle> {
 		try {			
 			ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Spectacle");
 			while(result.next()) {
-				Spectacle rep = new Spectacle(result.getString("titre"), result.getInt("placeMax"));
-				listSpec.add(rep);
+				Spectacle spec = new Spectacle(result.getString("titre"), result.getInt("placeMax"));
+				listSpec.add(spec);
 			}
 			return listSpec;
 		}catch(SQLException e) {		

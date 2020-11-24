@@ -544,7 +544,6 @@ public class DashboardOrga extends JFrame {
 					}
 					if(!findDay) {
 						Reservation res = new Reservation(planning,prix);
-						System.out.println(res.ajouterReservation());
 					}
 				}else {
 					System.out.println("Pas plus d'un mois de réservation");

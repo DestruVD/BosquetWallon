@@ -40,6 +40,8 @@ public class InscriptionForm extends JFrame {
 	private boolean client;
 	private boolean orga;
 	private boolean gestio;
+	private boolean artiste;
+	private JTextField tfNumArtiste;
 
 	public InscriptionForm(String role) {
 		this.client=false;
@@ -49,7 +51,7 @@ public class InscriptionForm extends JFrame {
 		switch(role) {
 			case "Client" -> this.client = true;
 			case "Organisateur"-> this.orga = true;
-			case "Gestionnaire"-> this.gestio = true;
+			case "Artiste" -> this.artiste=true;
 		}
 		
 		setResizable(false);
@@ -174,15 +176,15 @@ public class InscriptionForm extends JFrame {
 			panel.add(tfNumCpt);
 			tfNumCpt.setColumns(10);
 		}else {
-			JLabel lblNumNationale = new JLabel("Numéro nationale");
-			lblNumNationale.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNumNationale.setBounds(15, 214, 130, 13);
-			panel.add(lblNumNationale);
+			JLabel lblNumArtiste = new JLabel("Numéro artiste");
+			lblNumArtiste.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNumArtiste.setBounds(15, 214, 130, 13);
+			panel.add(lblNumArtiste);
 			
-			tfNumNationale = new JTextField();
-			tfNumNationale.setBounds(32, 237, 96, 19);
-			panel.add(tfNumNationale);
-			tfNumNationale.setColumns(10);
+			tfNumArtiste = new JTextField();
+			tfNumArtiste.setBounds(32, 237, 96, 19);
+			panel.add(tfNumArtiste);
+			tfNumArtiste.setColumns(10);
 		}
 		
 		JButton btnNewButton = new JButton("S'enregistrer");
@@ -196,6 +198,8 @@ public class InscriptionForm extends JFrame {
 				String confirmPwd = tfConfirmPassword.getText();
 				String numTel="";
 				String numBanque="";
+				String numArtiste="";
+				boolean isValid=false;
 				if(nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || adresse.isEmpty() || pwd.isEmpty() || confirmPwd.isEmpty()) {
 					System.out.println("Formulaire incorrect");
 				}else {					
@@ -203,22 +207,35 @@ public class InscriptionForm extends JFrame {
 						numTel = tfTelephone.getText();
 					}else if(InscriptionForm.this.orga) {
 						numBanque= tfNumCpt.getText();
+					}else {
+						numArtiste=tfNumArtiste.getText();
 					}
-					if(!pwd.equals(confirmPwd) || numTel.isEmpty() || numBanque.isEmpty()) {
-						System.out.println("Le formulaire est incorrect ");
+					if(!pwd.equals(confirmPwd) ){ //|| numTel.isEmpty() || numBanque.isEmpty() || numArtiste.isEmpty()
+						System.out.println("Les mots de passes sont différents ");
+					}else if(InscriptionForm.this.client && numTel.isEmpty()) {
+						System.out.println("Le numéro de téléphone est manquant");
+					}else if(InscriptionForm.this.orga && numBanque.isEmpty()) {
+						System.out.println("Le numéro de banque est manquant");
+					}else if(InscriptionForm.this.artiste && numArtiste.isEmpty()) {
+						System.out.println("Le numéro d'artiste est manquant");
 					}else {
 						if(InscriptionForm.this.client) {						
 							Client client = new Client(nom,prenom,adresse,role,email,pwd,numTel);
-							client.register();
+							isValid = client.register();
 						}else if(InscriptionForm.this.orga) {
 							Organisateur orga = new Organisateur(nom,prenom,adresse,role,email,pwd,numBanque);
-							orga.register();
+							isValid = orga.register();
 						}else {
-							System.out.println("Create an Gestionnary");
+							Artiste artiste = new Artiste(nom,prenom,adresse,role,email,pwd,numArtiste);
+							isValid = artiste.register();
 						}
-						InscriptionForm.this.dispose();
-						Main main = new Main();
-						main.setVisible(true);
+						if(isValid) {							
+							InscriptionForm.this.dispose();
+							Main main = new Main();
+							main.setVisible(true);
+						}else {
+							System.out.println("Ce compte existe déjà");
+						}
 					}
 				}
 			}

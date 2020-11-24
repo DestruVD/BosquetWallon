@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import be.vvd.classes.Artiste;
 import be.vvd.classes.Categorie;
 import be.vvd.classes.Configuration;
 import be.vvd.classes.Spectacle;
@@ -57,6 +58,8 @@ public class CreateSpectacle extends JFrame {
 	 */
 	@SuppressWarnings("unchecked")
 	public CreateSpectacle() {
+		Set<Artiste> listArtiste = Artiste.findAllArtist();
+		Set<String> listArtisteToAdd = new HashSet<>();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 470);
 		contentPane = new JPanel() {  
@@ -111,7 +114,7 @@ public class CreateSpectacle extends JFrame {
 		JLabel lblOr = new JLabel("Or");
 		lblOr.setHorizontalAlignment(SwingConstants.CENTER);
 		lblOr.setForeground(Color.WHITE);
-		lblOr.setBounds(428, 167, 96, 13);
+		lblOr.setBounds(190, 215, 96, 13);
 		lblOr.setVisible(false);
 		contentPane.add(lblOr);
 		
@@ -131,7 +134,7 @@ public class CreateSpectacle extends JFrame {
 		
 		tfPrixOr = new JTextField();
 		tfPrixOr.setColumns(10);
-		tfPrixOr.setBounds(428, 190, 96, 19);
+		tfPrixOr.setBounds(190, 238, 96, 19);
 		tfPrixOr.setVisible(false);
 		contentPane.add(tfPrixOr);
 		
@@ -162,12 +165,12 @@ public class CreateSpectacle extends JFrame {
 		JLabel lblDiamant = new JLabel("Diamant");
 		lblDiamant.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDiamant.setForeground(Color.WHITE);
-		lblDiamant.setBounds(543, 167, 96, 13);
+		lblDiamant.setBounds(311, 215, 96, 13);
 		lblDiamant.setVisible(false);
 		contentPane.add(lblDiamant);
 		
 		tfPrixDiamant = new JTextField();
-		tfPrixDiamant.setBounds(543, 190, 96, 19);
+		tfPrixDiamant.setBounds(311, 238, 96, 19);
 		tfPrixDiamant.setColumns(10);
 		tfPrixDiamant.setVisible(false);
 		contentPane.add(tfPrixDiamant);
@@ -223,6 +226,33 @@ public class CreateSpectacle extends JFrame {
 		lblConfig.setBounds(122, 108, 96, 13);
 		contentPane.add(lblConfig);
 		
+		JComboBox CBArtiste = new JComboBox();
+		for(var item : listArtiste ) { 
+			CBArtiste.addItem(item.getNom()+" "+item.getPrenom());
+		}
+		CBArtiste.setBounds(456, 163, 150, 21);
+		contentPane.add(CBArtiste);
+		
+		JButton btnAddArtiste = new JButton("Ajouter un artiste");
+		
+		btnAddArtiste.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean exists=false;
+				for(var item : listArtisteToAdd) {
+					if(item.equals((String) CBArtiste.getSelectedItem())) {
+						exists=true;
+					}
+				}
+				if(!exists) {
+					listArtisteToAdd.add((String) CBArtiste.getSelectedItem());
+				}
+			}
+		});
+		
+		
+		btnAddArtiste.setBounds(616, 163, 140, 21);
+		contentPane.add(btnAddArtiste);
+		
 		JButton btnCreateSpectacle = new JButton("Ajouter");
 		btnCreateSpectacle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -244,23 +274,28 @@ public class CreateSpectacle extends JFrame {
 								listCateg.add(new Categorie("bronze",Integer.parseInt(tfPrixBronze.getText()),1500,1500,config.getID()));
 					break;
 				}
-				
 				for(var item : listCateg) {
 					item.ajouterCategorie();
 				}
 				
-//				String titre = tfTitre.getText();
-//				int placeMax = Integer.parseInt(tfPlaceMax.getText());
+				String titre = tfTitre.getText();
+				int placeMax = Integer.parseInt(tfPlaceMax.getText());
 				
-//				Spectacle spec = new Spectacle(titre,placeMax);
+				Spectacle spec = new Spectacle(titre,placeMax,listArtisteToAdd,config.getID());
+				spec.ajouterSpectacle();
 				
-//				spec.ajouterSpectacle();
-//				CreateSpectacle.this.dispose();
-//				DashboardOrga dashboard = new DashboardOrga();
-//				dashboard.setVisible(true);
+				CreateSpectacle.this.dispose();
+				DashboardOrga dashboard = new DashboardOrga();
+				dashboard.setVisible(true);
 			}
 		});
-		btnCreateSpectacle.setBounds(326, 267, 85, 21);
+		btnCreateSpectacle.setBounds(344, 341, 85, 21);
 		contentPane.add(btnCreateSpectacle);
+		
+		JLabel lblListeArtiste = new JLabel("Liste des artistes inscrits");
+		lblListeArtiste.setForeground(Color.WHITE);
+		lblListeArtiste.setHorizontalAlignment(SwingConstants.CENTER);
+		lblListeArtiste.setBounds(446, 138, 165, 13);
+		contentPane.add(lblListeArtiste);
 	}
 }

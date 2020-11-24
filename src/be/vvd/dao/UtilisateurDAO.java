@@ -3,6 +3,7 @@ package be.vvd.dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Set;
 
 import be.vvd.classes.*;
@@ -17,14 +18,30 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
 	public boolean create(Utilisateur user){
 		try {
 			if(user.getRole()=="Client") {
-				this.connect.createStatement().executeUpdate("INSERT INTO Utilisateur VALUES(null,'"+user.getNom()+"','"+user.getPrenom()+"','"+user.getAdresse()+"','"+user.getRole()+"','"+user.getPassword()+"','"+user.getEmail()+"','"+((Client) user).getTelephone()+"',null,null)");
+				ResultSet res = this.connect.createStatement().executeQuery("SELECT * FROM Utilisateur WHERE (Nom='"+user.getNom().toLowerCase()+"' AND Prenom='"+user.getPrenom().toLowerCase()+"') OR Email='"+user.getEmail().toLowerCase()+"'");
+				if(res.next()) {
+					return false;
+				}else {					
+					this.connect.createStatement().executeUpdate("INSERT INTO Utilisateur VALUES(null,'"+user.getNom().toLowerCase()+"','"+user.getPrenom().toLowerCase()+"','"+user.getAdresse().toLowerCase()+"','"+user.getRole().toLowerCase()+"','"+user.getPassword()+"','"+user.getEmail().toLowerCase()+"','"+((Client) user).getTelephone().toLowerCase()+"',null)");
+				}
 			}else if(user.getRole()=="Organisateur") {
-				this.connect.createStatement().executeUpdate("INSERT INTO Utilisateur VALUES(null,'"+user.getNom()+"','"+user.getPrenom()+"','"+user.getAdresse()+"','"+user.getRole()+"','"+user.getPassword()+"','"+user.getEmail()+"',null,'"+((Organisateur) user).getNumBanque()+"',null)");
-			}else if(user.getRole()=="Gestionnaire"){
-				this.connect.createStatement().executeUpdate("INSERT INTO Utilisateur VALUES(null,'"+user.getNom()+"','"+user.getPrenom()+"','"+user.getAdresse()+"','"+user.getRole()+"','"+user.getPassword()+"','"+user.getEmail()+"',null,null,'"+((Gestionnaire) user).getNumNationale()+"')");
+				ResultSet res = this.connect.createStatement().executeQuery("SELECT * FROM Utilisateur WHERE (Nom='"+user.getNom().toLowerCase()+"' AND Prenom='"+user.getPrenom().toLowerCase()+"') OR Email='"+user.getEmail().toLowerCase()+"'");
+				if(res.next()) {
+					return false;
+				}else {					
+					this.connect.createStatement().executeUpdate("INSERT INTO Utilisateur VALUES(null,'"+user.getNom().toLowerCase()+"','"+user.getPrenom().toLowerCase()+"','"+user.getAdresse().toLowerCase()+"','"+user.getRole().toLowerCase()+"','"+user.getPassword()+"','"+user.getEmail().toLowerCase()+"',null,'"+((Organisateur) user).getNumBanque().toLowerCase()+"')");
+				}
+			}else if(user.getRole()=="Artiste"){
+				ResultSet res = this.connect.createStatement().executeQuery("SELECT * FROM Artiste WHERE (nom='"+user.getNom().toLowerCase()+"' AND prenom='"+user.getPrenom().toLowerCase()+"') OR email='"+user.getEmail().toLowerCase()+"'");
+				if(res.next()) {
+					return false;
+				}else {					
+					this.connect.createStatement().executeUpdate("INSERT INTO Artiste VALUES(null,'"+user.getNom().toLowerCase()+"','"+user.getPrenom().toLowerCase()+"','"+user.getAdresse().toLowerCase()+"','"+user.getRole().toLowerCase()+"','"+user.getPassword()+"','"+user.getEmail().toLowerCase()+"','"+((Artiste) user).getNumArtiste().toLowerCase()+"')");
+				}
 			}
 			return true;
 		}catch(SQLException e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -61,12 +78,34 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
 				if(result.getString("Password").equals(user.getPassword())) {
 					return result.getString("Role");
 				}
+			}else {
+				ResultSet resultArtiste = this.connect.createStatement().executeQuery("SELECT * FROM Artiste WHERE email='"+email+"'");
+				if(resultArtiste.next()) {
+					if(resultArtiste.getString("password").equals(user.getPassword())) {
+						return resultArtiste.getString("role");
+					}
+				}
 			}
 			return null;
 		}catch(SQLException e) {
 			e.printStackTrace();
 			return null; 
 		}	
+	}
+	
+	public Set<Artiste> findAllArtiste(){
+		Set<Artiste> listArtiste = new HashSet<Artiste>();
+		try {			
+			ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Artiste");
+			while(result.next()) {
+				Artiste artiste = new Artiste(result.getString("nom"),result.getString("prenom"));
+				listArtiste.add(artiste);
+			}
+			return listArtiste;
+		}catch(SQLException e) {		
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public Set<Utilisateur> findAll() {

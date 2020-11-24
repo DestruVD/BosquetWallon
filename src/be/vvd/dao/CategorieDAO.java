@@ -23,7 +23,7 @@ public class CategorieDAO implements DAO<be.vvd.classes.Categorie> {
 	
 	public boolean create(be.vvd.classes.Categorie obj) {
 		try {
-			this.connect.createStatement().executeUpdate("INSERT INTO Categorie VALUES(null,'"+obj.getNomCateg()+"','"+obj.getPrix()+"','"+obj.getNbrPlaceDispo()+"','"+obj.getNbrPlaceMax()+"','"+obj.getIDConfig()+"')");
+			this.connect.createStatement().executeUpdate("INSERT INTO Categorie VALUES(null,'"+obj.getNomCateg().toLowerCase()+"','"+obj.getPrix()+"','"+obj.getNbrPlaceDispo()+"','"+obj.getNbrPlaceMax()+"','"+obj.getIDConfig()+"')");
 			return true;
 		}catch(SQLException e) {
 			e.printStackTrace();

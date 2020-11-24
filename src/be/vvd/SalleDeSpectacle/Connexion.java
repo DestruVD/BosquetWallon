@@ -108,13 +108,13 @@ public class Connexion extends JFrame {
 				String ResponseUser = user.login();
 				if(ResponseUser!=null){
 					switch(ResponseUser) {
-						case "Client": System.out.println("Client");
+						case "client": System.out.println("Client");
 							break;
-						case "Organisateur": Connexion.this.dispose();
+						case "organisateur": Connexion.this.dispose();
 											 DashboardOrga dashbOrga = new DashboardOrga();
 											 dashbOrga.setVisible(true);
 							break;
-						case "Gestionnaire": System.out.println("Gestionnaire");
+						case "artiste": System.out.println("Artiste");
 							break;
 					}
 				}

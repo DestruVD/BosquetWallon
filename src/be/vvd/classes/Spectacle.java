@@ -26,6 +26,10 @@ public class Spectacle {
 		this.nbrPlaceParClient=nbrPlaceParClient;
 	}
 	
+	public Spectacle(String titre) {
+		this.titre=titre;
+	}
+	
 	public String getTitre() {
 		return this.titre;
 	}

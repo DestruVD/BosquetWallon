@@ -70,19 +70,21 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
 		}
 	}
 	
-	public String login(Utilisateur user) {
+	public Utilisateur login(Utilisateur user) {
 		try {
 			String email = user.getEmail().toLowerCase();
 			ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Utilisateur WHERE Email='"+email+"'");
 			if(result.next()) {
 				if(result.getString("Password").equals(user.getPassword())) {
-					return result.getString("Role");
+					Utilisateur resultUser = new Utilisateur(result.getLong("id"),result.getString("Role"));
+					return resultUser;
 				}
 			}else {
 				ResultSet resultArtiste = this.connect.createStatement().executeQuery("SELECT * FROM Artiste WHERE email='"+email+"'");
 				if(resultArtiste.next()) {
 					if(resultArtiste.getString("password").equals(user.getPassword())) {
-						return resultArtiste.getString("role");
+						Utilisateur artisteUser = new Utilisateur(resultArtiste.getLong("id"),resultArtiste.getString("role"));
+						return artisteUser;
 					}
 				}
 			}

@@ -13,16 +13,26 @@ public class Reservation {
 	private String statut;
 	private int prix;
 	private PlanningSalle planning;
+	private Utilisateur orga;
 	
 	protected static DAOFactory factory = (DAOFactory) DAOFactory.getFactory(0);
 	protected static ReservationDAO dao = factory.getReservationDAO();
 	
-	public Reservation(PlanningSalle planning ,int prix) {
+	public Reservation(PlanningSalle planning ,int prix,Utilisateur orga) {
 		this.planning=planning;
 		this.prix=prix;
+		this.orga=orga;
 		this.statut="Non payé";
 		this.solde=3000;
 		this.accompte=prix / 100 * 40;
+	}
+	
+	public Reservation(PlanningSalle planning ,int prix ,String statut, int solde, int accompte) {
+		this.planning=planning;
+		this.prix=prix;
+		this.statut=statut;
+		this.solde=solde;
+		this.accompte=accompte;
 	}
 	
 	public Reservation(PlanningSalle planning) {
@@ -35,6 +45,10 @@ public class Reservation {
 	
 	public String getDateFinR() {
 		return this.planning.getDateFinR();
+	}
+	
+	public long getIDUser() {
+		return this.orga.getID();
 	}
 	
 	public String getTitre() {
@@ -67,5 +81,9 @@ public class Reservation {
 	
 	public static Set<Reservation> findAll(){
 		return dao.findAll();
+	}
+	
+	public static Set<Reservation> findAllByUser(Utilisateur user){
+		return dao.findAllByUser(user);
 	}
 }

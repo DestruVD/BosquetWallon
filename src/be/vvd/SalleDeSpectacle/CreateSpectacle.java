@@ -14,6 +14,7 @@ import be.vvd.classes.Artiste;
 import be.vvd.classes.Categorie;
 import be.vvd.classes.Configuration;
 import be.vvd.classes.Spectacle;
+import be.vvd.classes.Utilisateur;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -44,7 +45,7 @@ public class CreateSpectacle extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreateSpectacle frame = new CreateSpectacle();
+					CreateSpectacle frame = new CreateSpectacle(new Utilisateur());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,7 +58,7 @@ public class CreateSpectacle extends JFrame {
 	 * Create the frame.
 	 */
 	@SuppressWarnings("unchecked")
-	public CreateSpectacle() {
+	public CreateSpectacle(Utilisateur user) {
 		Set<Artiste> listArtiste = Artiste.findAllArtist();
 		Set<String> listArtisteToAdd = new HashSet<>();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,7 +105,7 @@ public class CreateSpectacle extends JFrame {
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CreateSpectacle.this.dispose();
-				DashboardOrga dashboard = new DashboardOrga();
+				DashboardOrga dashboard = new DashboardOrga(user);
 				dashboard.setVisible(true);
 			}
 		});
@@ -285,7 +286,7 @@ public class CreateSpectacle extends JFrame {
 				spec.ajouterSpectacle();
 				
 				CreateSpectacle.this.dispose();
-				DashboardOrga dashboard = new DashboardOrga();
+				DashboardOrga dashboard = new DashboardOrga(user);
 				dashboard.setVisible(true);
 			}
 		});

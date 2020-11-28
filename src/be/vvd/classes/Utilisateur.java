@@ -5,6 +5,7 @@ import be.vvd.dao.UtilisateurDAO;
 
 public class Utilisateur{
 	
+	protected long id;
 	protected String nom;
 	protected String prenom;
 	protected String adresse;
@@ -31,12 +32,21 @@ public class Utilisateur{
 		this.password=password;
 	}
 	
+	public Utilisateur(long id, String role) {
+		this.id=id;
+		this.role=role;
+	}
+	
 	public void setNom(String nom) {
 		this.nom=nom;
 	}
 	
 	public void setPrenom(String prenom) {
 		this.prenom=prenom;
+	}
+	
+	public long getID() {
+		return this.id;
 	}
 	
 	public String getNom() {
@@ -64,7 +74,7 @@ public class Utilisateur{
 	public boolean findByEmail() {
 		return Utilisateur.dao.findByEmail(this.email);
 	}
-	public String login() {
+	public Utilisateur login() {
 		return Utilisateur.dao.login(this);
 	}
 }

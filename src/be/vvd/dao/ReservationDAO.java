@@ -8,6 +8,8 @@ import java.util.Set;
 
 import be.vvd.classes.PlanningSalle;
 import be.vvd.classes.Reservation;
+import be.vvd.classes.Spectacle;
+import be.vvd.classes.Utilisateur;
 
 public class ReservationDAO implements DAO<Reservation>{
 
@@ -25,7 +27,7 @@ public class ReservationDAO implements DAO<Reservation>{
 			if(res.next()) {
 				id = res.getInt("id");
 			}
-			this.connect.createStatement().executeUpdate("INSERT INTO Reservation VALUES(null,'"+obj.getAccompte()+"','"+obj.getSolde()+"','"+obj.getStatut()+"','"+obj.getPrix()+"','"+obj.getDateDebutR()+"','"+obj.getDateFinR()+"','"+id+"')");
+			this.connect.createStatement().executeUpdate("INSERT INTO Reservation VALUES(null,'"+obj.getAccompte()+"','"+obj.getSolde()+"','"+obj.getStatut()+"','"+obj.getPrix()+"','"+obj.getDateDebutR()+"','"+obj.getDateFinR()+"','"+id+"','"+obj.getIDUser()+"')");
 			return true;
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -67,5 +69,23 @@ public class ReservationDAO implements DAO<Reservation>{
 			return null;
 		}
 	}
-
+	
+	
+	public Set<Reservation> findAllByUser(Utilisateur user) {
+		Set<Reservation> listRes = new HashSet<>();
+		ResultSet resultSpec=null;
+		try {			
+			ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Reservation INNER JOIN Spectacle ON Reservation.idSpectacle = Spectacle.id  WHERE idUtilisateur='"+user.getID()+"'");
+			while(result.next()) {
+				Spectacle spec = new Spectacle(result.getString("titre"));
+				PlanningSalle plan = new PlanningSalle(result.getString("DateDebutR"), result.getString("DateFinR"),spec);
+				Reservation res = new Reservation(plan,result.getInt("prix"),result.getString("statut"),result.getInt("solde"),result.getInt("accompte"));
+				listRes.add(res);
+			}
+			return listRes;
+		}catch(SQLException e) {		
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

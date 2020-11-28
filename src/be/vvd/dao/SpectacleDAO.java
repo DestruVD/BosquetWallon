@@ -39,8 +39,8 @@ public class SpectacleDAO implements DAO<Spectacle> {
 			if(res.next()) {
 				idSpec = res.getLong(1);
 			}
-			for(var item : idArtistes) {				
-				this.connect.createStatement().executeUpdate("INSERT INTO Spectacle_Artiste VALUES ('"+idSpec+"','"+item+"')");
+			for(var idArtiste : idArtistes) {				
+				this.connect.createStatement().executeUpdate("INSERT INTO Spectacle_Artiste VALUES ('"+idSpec+"','"+idArtiste+"')");
 			}
 			return true;
 		}catch(SQLException e) {

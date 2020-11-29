@@ -263,16 +263,16 @@ public class CreateSpectacle extends JFrame {
 				config.ajouterConfig();
 				
 				switch(nomConfig) {
-				case "Debout": listCateg.add(new Categorie("debout",Integer.parseInt(tfPrixPlaceDebout.getText()),8000,8000,config));
+				case "Debout": listCateg.add(new Categorie("debout",Integer.parseInt(tfPrixPlaceDebout.getText()),8000,config));
 					break;
-				case "Concert": listCateg.add(new Categorie("or",Integer.parseInt(tfPrixOr.getText()),500,500,config));
-								listCateg.add(new Categorie("argent",Integer.parseInt(tfPrixArgent.getText()),1500,1500,config));
-								listCateg.add(new Categorie("bronze",Integer.parseInt(tfPrixBronze.getText()),3000,3000,config));
+				case "Concert": listCateg.add(new Categorie("or",Integer.parseInt(tfPrixOr.getText()),500,config));
+								listCateg.add(new Categorie("argent",Integer.parseInt(tfPrixArgent.getText()),1500,config));
+								listCateg.add(new Categorie("bronze",Integer.parseInt(tfPrixBronze.getText()),3000,config));
 					break;
-				case "Cirque": 	listCateg.add(new Categorie("diamant",Integer.parseInt(tfPrixDiamant.getText()),1000,1000,config));
-								listCateg.add(new Categorie("or",Integer.parseInt(tfPrixOr.getText()),2000,2000,config));
-								listCateg.add(new Categorie("argent",Integer.parseInt(tfPrixArgent.getText()),1500,1500,config));
-								listCateg.add(new Categorie("bronze",Integer.parseInt(tfPrixBronze.getText()),1500,1500,config));
+				case "Cirque": 	listCateg.add(new Categorie("diamant",Integer.parseInt(tfPrixDiamant.getText()),1000,config));
+								listCateg.add(new Categorie("or",Integer.parseInt(tfPrixOr.getText()),2000,config));
+								listCateg.add(new Categorie("argent",Integer.parseInt(tfPrixArgent.getText()),1500,config));
+								listCateg.add(new Categorie("bronze",Integer.parseInt(tfPrixBronze.getText()),1500,config));
 					break;
 				}
 				for(var item : listCateg) {

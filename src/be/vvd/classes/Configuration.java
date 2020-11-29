@@ -21,7 +21,7 @@ public class Configuration {
 	public Configuration(String nomConfiguration) {
 		this.nomConfiguration=nomConfiguration;
 	}
-	
+
 	public void setID(long id) {
 		this.id=id;
 	}

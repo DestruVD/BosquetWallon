@@ -26,6 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.awt.event.ActionEvent;
@@ -33,7 +34,6 @@ import com.toedter.calendar.JDayChooser;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JYearChooser;
 
-import be.vvd.classes.PlanningSalle;
 import javax.swing.DebugGraphics;
 import javax.swing.JList;
 import javax.swing.JTextArea;
@@ -56,7 +56,7 @@ public class DashboardOrga extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DashboardOrga frame = new DashboardOrga();
+					DashboardOrga frame = new DashboardOrga(new Utilisateur());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -68,8 +68,8 @@ public class DashboardOrga extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public DashboardOrga() {
-		
+	public DashboardOrga(Utilisateur user) {
+		Set<Reservation> listResByUser = Reservation.findAllByUser(user);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 470);
@@ -94,12 +94,40 @@ public class DashboardOrga extends JFrame {
 		btnDeconnexion.setBounds(660, 10, 114, 21);
 		contentPane.add(btnDeconnexion);
 		
+		JButton btnRepresentation = new JButton("Mes repr\u00E9sentations");
+		btnRepresentation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DashboardOrga.this.dispose();
+				MyRepresentations myRep = new MyRepresentations(user);
+				myRep.setVisible(true);
+			}
+		});
+		btnRepresentation.setBounds(329, 10, 168, 21);
+		btnRepresentation.setVisible(false);
+		contentPane.add(btnRepresentation);
+		
+		JButton btnMyRes = new JButton("Mes r\u00E9servations");
+		btnMyRes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MyReservations myRes = new MyReservations(user);
+				DashboardOrga.this.dispose();
+				myRes.setVisible(true);
+			}
+		});
+		btnMyRes.setBounds(507, 10, 143, 21);
+		btnMyRes.setVisible(false);
+		contentPane.add(btnMyRes);
+		
+		if(!listResByUser.isEmpty()) {
+    		btnMyRes.setVisible(true);
+    		btnRepresentation.setVisible(true);
+    	}
 		
 		JCalendar calendar = new JCalendar();
 		calendar.addPropertyChangeListener(new PropertyChangeListener() {
 	        @Override
 	        public void propertyChange(PropertyChangeEvent e) {
-	        	Set<Reservation> listRep = Reservation.findAll();
+	        	Set<Reservation> listRes = Reservation.findAll();
 	        	
 	        	DashboardOrga.this.compFirstCalendar = calendar.getDayChooser().getDayPanel().getComponents();
 	        	
@@ -147,7 +175,7 @@ public class DashboardOrga extends JFrame {
  				 }
 	    	     
 	    		for(int i = 7+j ; i<compFirstCalendar.length;i++) {
-	    			for(var item : listRep) {
+	    			for(var item : listRes) {
 	    				String strDateDebutR = item.getDateDebutR();
 	    				String strDateFinR = item.getDateFinR();
 	    				String dayDebutR = strDateDebutR.substring(0,2);
@@ -180,14 +208,14 @@ public class DashboardOrga extends JFrame {
 	    				
 	    				int jourEntreDates = be.vvd.classes.Date.betweenTwoDate(dateDebutR, dateFinR);
 	    				if(monthDebutRInt==monthFinRInt) {	    					
-	    					if(i-((7+j)+1)==dayDebutRInt && month+1==monthDebutRInt) {
+	    					if(i-((7+j)+1)==dayDebutRInt && month+1==monthDebutRInt && calendar.getYearChooser().getYear()==yearDebutRInt) {
 	    						for(int k=0; k<=jourEntreDates;k++) {
 	    							compFirstCalendar[k+i-2].setBackground(new Color(255,0,0));
 	    							compFirstCalendar[k+i-2].setEnabled(false);
 	    						}
 	    					}
 	    				}else {
-	    					if(i-((7+j)+1)==dayDebutRInt && month+1==monthDebutRInt) {
+	    					if(i-((7+j)+1)==dayDebutRInt && month+1==monthDebutRInt && calendar.getYearChooser().getYear()==yearDebutRInt) {
 	    						for(int k=0; k+i-2<compFirstCalendar.length;k++) {
 	    							compFirstCalendar[k+i-2].setBackground(new Color(255,0,0));
 	    							compFirstCalendar[k+i-2].setEnabled(false);
@@ -195,7 +223,7 @@ public class DashboardOrga extends JFrame {
 	    					}
 	    					be.vvd.classes.Date dateDebut2emeMois = new be.vvd.classes.Date(1,monthFinRInt,yearFinRInt);
 	    					int daysCount = be.vvd.classes.Date.betweenTwoDate(dateDebut2emeMois, dateFinR);
-	    					if(month+1==monthFinRInt) {	    						
+	    					if(month+1==monthFinRInt && calendar.getYearChooser().getYear()==yearFinRInt) {	    						
 	    						for(int k=0; k<=daysCount;k++) {
 	    							compFirstCalendar[7+j+k].setBackground(new Color(255,0,0));
 	    							compFirstCalendar[7+j+k].setEnabled(false);
@@ -293,14 +321,14 @@ public class DashboardOrga extends JFrame {
 	    				
 	    				int jourEntreDates = be.vvd.classes.Date.betweenTwoDate(dateDebutR, dateFinR);
 	    				if(monthDebutRInt==monthFinRInt) {	    					
-	    					if(i-((7+j)+1)==dayDebutRInt && secondCalendarMonth+1==monthDebutRInt) {
+	    					if(i-((7+j)+1)==dayDebutRInt && secondCalendarMonth+1==monthDebutRInt && secondCalendar.getYearChooser().getYear()==yearDebutRInt) {
 	    						for(int k=0; k<=jourEntreDates;k++) {
 	    							compSecondCalendar[k+i-2].setBackground(new Color(255,0,0));
 	    							compSecondCalendar[k+i-2].setEnabled(false);
 	    						}
 	    					}
 	    				}else {
-	    					if(i-((7+j)+1)==dayDebutRInt && secondCalendarMonth+1==monthDebutRInt) {
+	    					if(i-((7+j)+1)==dayDebutRInt && secondCalendarMonth+1==monthDebutRInt && secondCalendar.getYearChooser().getYear()==yearDebutRInt) {
 	    						for(int k=0; k+i-2<compSecondCalendar.length;k++) {
 	    							compSecondCalendar[k+i-2].setBackground(new Color(255,0,0));
 	    							compSecondCalendar[k+i-2].setEnabled(false);
@@ -308,7 +336,7 @@ public class DashboardOrga extends JFrame {
 	    					}
 	    					be.vvd.classes.Date dateDebut2emeMois = new be.vvd.classes.Date(1,monthFinRInt,yearFinRInt);
 	    					int daysCount = be.vvd.classes.Date.betweenTwoDate(dateDebut2emeMois, dateFinR);
-	    					if(secondCalendarMonth+1==monthFinRInt) {	    						
+	    					if(secondCalendarMonth+1==monthFinRInt && secondCalendar.getYearChooser().getYear()==yearFinRInt) {	    						
 	    						for(int k=0; k<=daysCount;k++) {
 	    							compSecondCalendar[7+j+k].setBackground(new Color(255,0,0));
 	    							compSecondCalendar[7+j+k].setEnabled(false);
@@ -323,9 +351,13 @@ public class DashboardOrga extends JFrame {
 		
 		Set<Spectacle> listSpec = Spectacle.findAll();
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(502, 41, 111, 21);
-		for(var item : listSpec) {			
-			comboBox.addItem(item.toString());
+		comboBox.setBounds(517, 60, 111, 21);
+		for(var item : listSpec) {
+			if(item.getUser()!=null) {
+				if(item.getUser().getID() == user.getID()) {
+					comboBox.addItem(item.toString());
+				}
+			}
 		}
 		contentPane.add(comboBox);
 		
@@ -373,7 +405,7 @@ public class DashboardOrga extends JFrame {
 				Calendar cal = Calendar.getInstance();
 				
 				cal.set(Calendar.MONTH, dateDebutR.getMonth()-1);
-				cal.set(Calendar.YEAR, secondCalendar.getYearChooser().getYear());
+				cal.set(Calendar.YEAR, calendar.getYearChooser().getYear());
 				cal.set(Calendar.DAY_OF_MONTH, 1);
 				java.util.Date firstDayOfMonth = cal.getTime();
 				
@@ -543,7 +575,10 @@ public class DashboardOrga extends JFrame {
 						}
 					}
 					if(!findDay) {
-						Reservation res = new Reservation(planning,prix);
+						Reservation res = new Reservation(planning,prix,user);
+						res.ajouterReservation();
+						btnMyRes.setVisible(true);
+						btnRepresentation.setVisible(true);
 					}
 				}else {
 					System.out.println("Pas plus d'un mois de réservation");
@@ -557,21 +592,21 @@ public class DashboardOrga extends JFrame {
 		addSpectacle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DashboardOrga.this.dispose();
-				CreateSpectacle newSpec = new CreateSpectacle();
+				CreateSpectacle newSpec = new CreateSpectacle(user);
 				newSpec.setVisible(true);
 			}
 		});
-		addSpectacle.setBounds(269, 41, 168, 21);
+		addSpectacle.setBounds(284, 60, 168, 21);
 		contentPane.add(addSpectacle);
 		
 		JLabel lblOu = new JLabel("ou");
 		lblOu.setForeground(Color.WHITE);
-		lblOu.setBounds(458, 45, 45, 13);
+		lblOu.setBounds(476, 64, 45, 13);
 		contentPane.add(lblOu);
 		
 		JLabel lblSelectSpectacle = new JLabel("S\u00E9lectionner un spectacle");
 		lblSelectSpectacle.setForeground(Color.WHITE);
-		lblSelectSpectacle.setBounds(502, 14, 148, 13);
+		lblSelectSpectacle.setBounds(517, 37, 148, 13);
 		contentPane.add(lblSelectSpectacle);
 		
 		JLabel lblNewLabel = new JLabel("S\u00E9lectionner la date de d\u00E9but de r\u00E9servation");

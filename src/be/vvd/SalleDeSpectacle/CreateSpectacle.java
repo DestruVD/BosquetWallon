@@ -14,6 +14,7 @@ import be.vvd.classes.Artiste;
 import be.vvd.classes.Categorie;
 import be.vvd.classes.Configuration;
 import be.vvd.classes.Spectacle;
+import be.vvd.classes.Utilisateur;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -44,7 +45,7 @@ public class CreateSpectacle extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreateSpectacle frame = new CreateSpectacle();
+					CreateSpectacle frame = new CreateSpectacle(new Utilisateur());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,7 +58,7 @@ public class CreateSpectacle extends JFrame {
 	 * Create the frame.
 	 */
 	@SuppressWarnings("unchecked")
-	public CreateSpectacle() {
+	public CreateSpectacle(Utilisateur user) {
 		Set<Artiste> listArtiste = Artiste.findAllArtist();
 		Set<String> listArtisteToAdd = new HashSet<>();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,7 +105,7 @@ public class CreateSpectacle extends JFrame {
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CreateSpectacle.this.dispose();
-				DashboardOrga dashboard = new DashboardOrga();
+				DashboardOrga dashboard = new DashboardOrga(user);
 				dashboard.setVisible(true);
 			}
 		});
@@ -262,16 +263,16 @@ public class CreateSpectacle extends JFrame {
 				config.ajouterConfig();
 				
 				switch(nomConfig) {
-				case "Debout": listCateg.add(new Categorie("debout",Integer.parseInt(tfPrixPlaceDebout.getText()),8000,8000,config.getID()));
+				case "Debout": listCateg.add(new Categorie("debout",Integer.parseInt(tfPrixPlaceDebout.getText()),8000,config));
 					break;
-				case "Concert": listCateg.add(new Categorie("or",Integer.parseInt(tfPrixOr.getText()),500,500,config.getID()));
-								listCateg.add(new Categorie("argent",Integer.parseInt(tfPrixArgent.getText()),1500,1500,config.getID()));
-								listCateg.add(new Categorie("bronze",Integer.parseInt(tfPrixBronze.getText()),3000,3000,config.getID()));
+				case "Concert": listCateg.add(new Categorie("or",Integer.parseInt(tfPrixOr.getText()),500,config));
+								listCateg.add(new Categorie("argent",Integer.parseInt(tfPrixArgent.getText()),1500,config));
+								listCateg.add(new Categorie("bronze",Integer.parseInt(tfPrixBronze.getText()),3000,config));
 					break;
-				case "Cirque": 	listCateg.add(new Categorie("diamant",Integer.parseInt(tfPrixDiamant.getText()),1000,1000,config.getID()));
-								listCateg.add(new Categorie("or",Integer.parseInt(tfPrixOr.getText()),2000,2000,config.getID()));
-								listCateg.add(new Categorie("argent",Integer.parseInt(tfPrixArgent.getText()),1500,1500,config.getID()));
-								listCateg.add(new Categorie("bronze",Integer.parseInt(tfPrixBronze.getText()),1500,1500,config.getID()));
+				case "Cirque": 	listCateg.add(new Categorie("diamant",Integer.parseInt(tfPrixDiamant.getText()),1000,config));
+								listCateg.add(new Categorie("or",Integer.parseInt(tfPrixOr.getText()),2000,config));
+								listCateg.add(new Categorie("argent",Integer.parseInt(tfPrixArgent.getText()),1500,config));
+								listCateg.add(new Categorie("bronze",Integer.parseInt(tfPrixBronze.getText()),1500,config));
 					break;
 				}
 				for(var item : listCateg) {
@@ -281,11 +282,11 @@ public class CreateSpectacle extends JFrame {
 				String titre = tfTitre.getText();
 				int placeMax = Integer.parseInt(tfPlaceMax.getText());
 				
-				Spectacle spec = new Spectacle(titre,placeMax,listArtisteToAdd,config.getID());
+				Spectacle spec = new Spectacle(titre,placeMax,listArtisteToAdd,config,user);
 				spec.ajouterSpectacle();
 				
 				CreateSpectacle.this.dispose();
-				DashboardOrga dashboard = new DashboardOrga();
+				DashboardOrga dashboard = new DashboardOrga(user);
 				dashboard.setVisible(true);
 			}
 		});

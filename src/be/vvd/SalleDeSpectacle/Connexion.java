@@ -105,13 +105,13 @@ public class Connexion extends JFrame {
 				String email = Email.getText();
 				String password = Password.getText();
 				Utilisateur user = new Utilisateur(email,password);
-				String ResponseUser = user.login();
+				Utilisateur ResponseUser = user.login();
 				if(ResponseUser!=null){
-					switch(ResponseUser) {
+					switch(ResponseUser.getRole()) {
 						case "client": System.out.println("Client");
 							break;
 						case "organisateur": Connexion.this.dispose();
-											 DashboardOrga dashbOrga = new DashboardOrga();
+											 DashboardOrga dashbOrga = new DashboardOrga(ResponseUser);
 											 dashbOrga.setVisible(true);
 							break;
 						case "artiste": System.out.println("Artiste");

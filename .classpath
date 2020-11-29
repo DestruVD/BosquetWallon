@@ -11,7 +11,7 @@
 	<classpathentry kind="lib" path="C:/dev/java/projects/TestDB/hsqldb-2.5.0.jar"/>
 	<classpathentry kind="lib" path="C:/dev/java/projects/TestDB/jackcess-3.0.1.jar"/>
 	<classpathentry kind="lib" path="C:/dev/java/projects/TestDB/ucanaccess-5.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/vandy/Downloads/sqlite-jdbc-3.32.3.2.jar"/>
 	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/dev/java/projects/SalleDeSpectacle/bin/be/vvd/connexion/sqlite-jdbc-3.32.3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

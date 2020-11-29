@@ -23,7 +23,7 @@ public class CategorieDAO implements DAO<be.vvd.classes.Categorie> {
 	
 	public boolean create(be.vvd.classes.Categorie obj) {
 		try {
-			this.connect.createStatement().executeUpdate("INSERT INTO Categorie VALUES(null,'"+obj.getNomCateg().toLowerCase()+"','"+obj.getPrix()+"','"+obj.getNbrPlaceDispo()+"','"+obj.getNbrPlaceMax()+"','"+obj.getIDConfig()+"')");
+			this.connect.createStatement().executeUpdate("INSERT INTO Categorie VALUES(null,'"+obj.getNomCateg().toLowerCase()+"','"+obj.getPrix()+"','"+obj.getNbrPlaceMax()+"','"+obj.getConfig().getID()+"')");
 			return true;
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -44,7 +44,7 @@ public class CategorieDAO implements DAO<be.vvd.classes.Categorie> {
 	}
 
 	@Override
-	public be.vvd.classes.Categorie find(int id) {
+	public be.vvd.classes.Categorie find(long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

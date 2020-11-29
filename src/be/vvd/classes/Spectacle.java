@@ -7,39 +7,62 @@ import be.vvd.dao.SpectacleDAO;
 import be.vvd.dao.UtilisateurDAO;
 
 public class Spectacle {
+	private long id;
 	private String titre;
 	private int nbrPlaceParClient;
 	private Set<String> listArtiste;
-	private long idConfig;
+	private Set<Representation> listRepres;
+	private Utilisateur user;
+	private be.vvd.classes.Configuration config;
 	
 	protected static DAOFactory factory = (DAOFactory) DAOFactory.getFactory(0);
 	protected static SpectacleDAO dao = factory.getSpectacleDAO();
 	
-	public Spectacle(String titre, int nbrPlaceParClient, Set<String> listArtiste,long id) {
+	public Spectacle(String titre, int nbrPlaceParClient, Set<String> listArtiste,be.vvd.classes.Configuration config,Utilisateur user) {
 		this.titre=titre;
 		this.nbrPlaceParClient=nbrPlaceParClient;
 		this.listArtiste=listArtiste;
-		this.idConfig=id;
+		this.config=config;
+		this.user=user;
 	}
-	public Spectacle(String titre, int nbrPlaceParClient) {
+	public Spectacle(String titre, int nbrPlaceParClient, Utilisateur user) {
 		this.titre=titre;
 		this.nbrPlaceParClient=nbrPlaceParClient;
+		this.user=user;
 	}
 	
-	public Spectacle(String titre) {
+	public Spectacle(long id,String titre) {
+		this.id=id;
 		this.titre=titre;
+	}
+	
+	public Spectacle(long id, Set<Representation> list) {
+		this.id=id;
+		this.listRepres=list;
+	}
+	
+	public Spectacle(long id) {
+		this.id=id;
+	}
+	
+	public Utilisateur getUser() {
+		return this.user;
 	}
 	
 	public String getTitre() {
 		return this.titre;
 	}
 	
+	public long getID() {
+		return this.id;
+	}
+	
 	public int getPlaceMax() {
 		return this.nbrPlaceParClient;
 	}
 	
-	public long getIDConfig() {
-		return this.idConfig;
+	public be.vvd.classes.Configuration getConfig() {
+		return this.config;
 	}
 	
 	public Set<String> getListArtiste() {

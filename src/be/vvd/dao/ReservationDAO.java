@@ -1,8 +1,10 @@
 package be.vvd.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,14 +45,43 @@ public class ReservationDAO implements DAO<Reservation>{
 
 	@Override
 	public boolean update(Reservation obj) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			PreparedStatement s = this.connect.prepareStatement("UPDATE Reservation SET statut = 'Payé', solde = 0 WHERE id='"+obj.getID()+"'");
+			s.executeUpdate();
+			return true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
-	@Override
-	public Reservation find(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Reservation find(long id) {
+		try {
+			Reservation reserv=null;
+			PlanningSalle planning=null;
+			Spectacle spec=null;
+			ResultSet res = this.connect.createStatement().executeQuery("SELECT * FROM Reservation WHERE id='"+id+"'");
+			if(res.next()) {
+				spec = new Spectacle(res.getInt("idSpectacle"));
+				planning = new PlanningSalle(res.getString("DateDebutR"),res.getString("DateFinR"),spec);
+				reserv = new Reservation(planning);
+			}
+			return reserv;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public boolean paiementAccompte(Reservation obj) {
+		try {
+			PreparedStatement s = this.connect.prepareStatement("UPDATE Reservation SET solde = '"+obj.getSolde()+"' WHERE id='"+obj.getID()+"'");
+			s.executeUpdate();
+			return true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
@@ -77,9 +108,9 @@ public class ReservationDAO implements DAO<Reservation>{
 		try {			
 			ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Reservation INNER JOIN Spectacle ON Reservation.idSpectacle = Spectacle.id  WHERE idUtilisateur='"+user.getID()+"'");
 			while(result.next()) {
-				Spectacle spec = new Spectacle(result.getString("titre"));
+				Spectacle spec = new Spectacle(((long)result.getInt("idSpectacle")),result.getString("titre"));
 				PlanningSalle plan = new PlanningSalle(result.getString("DateDebutR"), result.getString("DateFinR"),spec);
-				Reservation res = new Reservation(plan,result.getInt("prix"),result.getString("statut"),result.getInt("solde"),result.getInt("accompte"));
+				Reservation res = new Reservation(result.getLong("id"),plan,result.getInt("prix"),result.getString("statut"),result.getInt("solde"),result.getInt("accompte"));
 				listRes.add(res);
 			}
 			return listRes;

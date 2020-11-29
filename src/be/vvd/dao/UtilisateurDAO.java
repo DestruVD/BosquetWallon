@@ -54,7 +54,7 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
 		return false;
 	}
 	
-	public Utilisateur find(int id){
+	public Utilisateur find(long id){
 		return null;
 	}
 	

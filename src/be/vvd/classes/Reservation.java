@@ -8,6 +8,8 @@ import java.util.Set;
 import be.vvd.classes.*;
 
 public class Reservation {
+	
+	private long id;
 	private int accompte;
 	private int solde;
 	private String statut;
@@ -23,12 +25,20 @@ public class Reservation {
 		this.prix=prix;
 		this.orga=orga;
 		this.statut="Non payé";
-		this.solde=3000;
+		this.solde=prix;
 		this.accompte=prix / 100 * 40;
 	}
 	
-	public Reservation(PlanningSalle planning ,int prix ,String statut, int solde, int accompte) {
+	public Reservation(long id,PlanningSalle planning ,int prix ,String statut, int solde, int accompte) {
+		this.id=id;
 		this.planning=planning;
+		this.prix=prix;
+		this.statut=statut;
+		this.solde=solde;
+		this.accompte=accompte;
+	}
+	
+	public Reservation(int prix ,String statut, int solde, int accompte) {
 		this.prix=prix;
 		this.statut=statut;
 		this.solde=solde;
@@ -37,6 +47,18 @@ public class Reservation {
 	
 	public Reservation(PlanningSalle planning) {
 		this.planning=planning;
+	}
+	
+	public Reservation(long id) {
+		this.id=id;
+	}
+	
+	public void setSolde(int solde) {
+		this.solde=solde;
+	}
+	
+	public void setStatut(String statut) {
+		this.statut=statut;
 	}
 	
 	public String getDateDebutR() {
@@ -59,6 +81,14 @@ public class Reservation {
 		return this.planning.getPlaceMax();
 	}
 	
+	public PlanningSalle getPlanning() {
+		return this.planning;
+	}
+	
+	public long getID() {
+		return this.id;
+	}
+	
 	public int getPrix() {
 		return this.prix;
 	}
@@ -77,6 +107,18 @@ public class Reservation {
 	
 	public boolean ajouterReservation() {
 		return dao.create(this);
+	}
+	
+	public boolean updateReservation() {
+		return dao.update(this);
+	}
+	
+	public boolean paiementAccompte() {
+		return dao.paiementAccompte(this);
+	}
+	
+	public Reservation getReservationByID() {
+		return dao.find(this.id);
 	}
 	
 	public static Set<Reservation> findAll(){

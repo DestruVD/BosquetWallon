@@ -2,6 +2,7 @@ package be.vvd.dao;
 
 import java.sql.Connection;
 
+import be.vvd.classes.Representation;
 import be.vvd.classes.Spectacle;
 import be.vvd.classes.Utilisateur;
 import be.vvd.connexion.*;
@@ -25,5 +26,8 @@ protected static final Connection conn = connexion.getInstance();
 	
 	public SpectacleDAO getSpectacleDAO() {
 		return new SpectacleDAO(conn);
+	}
+	public RepresentationDAO getRepresentationDAO() {
+		return new RepresentationDAO(conn);
 	}
 }

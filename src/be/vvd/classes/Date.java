@@ -35,7 +35,7 @@ public class Date{
 		return this.month;
 	}
 	public int getYear() {
-		return this.day;
+		return this.year;
 	}
 	public int[] getDayPerMonth() {
 		return this.dayPerMonth;

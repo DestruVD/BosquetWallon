@@ -11,7 +11,7 @@ public interface DAO<T> {
 	
 	public boolean update(T obj);
 	
-	public T find(int id);
+	public T find(long id);
 	
 	public Set<T> findAll();
 }

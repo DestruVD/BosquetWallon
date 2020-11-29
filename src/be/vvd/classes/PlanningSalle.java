@@ -27,6 +27,10 @@ public class PlanningSalle {
 		return this.spectacle.getPlaceMax();
 	}
 	
+	public Spectacle getSpectacle(){
+		return this.spectacle;
+	}
+	
 	public String getDateDebutR(){
 		return this.dateDebutR;
 	}

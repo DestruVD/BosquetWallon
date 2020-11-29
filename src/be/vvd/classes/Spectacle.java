@@ -7,9 +7,11 @@ import be.vvd.dao.SpectacleDAO;
 import be.vvd.dao.UtilisateurDAO;
 
 public class Spectacle {
+	private long id;
 	private String titre;
 	private int nbrPlaceParClient;
 	private Set<String> listArtiste;
+	private Set<Representation> listRepres;
 	private Utilisateur user;
 	private be.vvd.classes.Configuration config;
 	
@@ -33,12 +35,25 @@ public class Spectacle {
 		this.titre=titre;
 	}
 	
+	public Spectacle(long id, Set<Representation> list) {
+		this.id=id;
+		this.listRepres=list;
+	}
+	
+	public Spectacle(long id) {
+		this.id=id;
+	}
+	
 	public Utilisateur getUser() {
 		return this.user;
 	}
 	
 	public String getTitre() {
 		return this.titre;
+	}
+	
+	public long getID() {
+		return this.id;
 	}
 	
 	public int getPlaceMax() {

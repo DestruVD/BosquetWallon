@@ -44,7 +44,7 @@ public class CategorieDAO implements DAO<be.vvd.classes.Categorie> {
 	}
 
 	@Override
-	public be.vvd.classes.Categorie find(int id) {
+	public be.vvd.classes.Categorie find(long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

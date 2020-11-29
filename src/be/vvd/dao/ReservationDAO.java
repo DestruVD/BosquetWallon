@@ -55,10 +55,22 @@ public class ReservationDAO implements DAO<Reservation>{
 		}
 	}
 
-	@Override
-	public Reservation find(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Reservation find(long id) {
+		try {
+			Reservation reserv=null;
+			PlanningSalle planning=null;
+			Spectacle spec=null;
+			ResultSet res = this.connect.createStatement().executeQuery("SELECT * FROM Reservation WHERE id='"+id+"'");
+			if(res.next()) {
+				spec = new Spectacle(res.getInt("idSpectacle"));
+				planning = new PlanningSalle(res.getString("DateDebutR"),res.getString("DateFinR"),spec);
+				reserv = new Reservation(planning);
+			}
+			return reserv;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public boolean paiementAccompte(Reservation obj) {

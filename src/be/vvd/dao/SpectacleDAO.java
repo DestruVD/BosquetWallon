@@ -38,7 +38,7 @@ public class SpectacleDAO implements DAO<Spectacle> {
 			statement.executeUpdate();
 			ResultSet res = statement.getGeneratedKeys();
 			if(res.next()) {
-				idSpec = res.getLong("id");
+				idSpec = res.getLong(1);
 			}
 			for(var idArtiste : idArtistes) {				
 				this.connect.createStatement().executeUpdate("INSERT INTO Spectacle_Artiste VALUES ('"+idSpec+"','"+idArtiste+"')");
@@ -63,7 +63,7 @@ public class SpectacleDAO implements DAO<Spectacle> {
 	}
 
 	@Override
-	public Spectacle find(int id) {
+	public Spectacle find(long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

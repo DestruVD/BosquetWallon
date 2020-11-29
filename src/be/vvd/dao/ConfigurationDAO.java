@@ -50,7 +50,7 @@ public class ConfigurationDAO implements DAO<be.vvd.classes.Configuration> {
 	}
 
 	@Override
-	public be.vvd.classes.Configuration find(int id) {
+	public be.vvd.classes.Configuration find(long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

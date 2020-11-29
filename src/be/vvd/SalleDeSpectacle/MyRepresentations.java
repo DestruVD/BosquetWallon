@@ -10,8 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.toedter.components.JSpinField;
+
 import be.vvd.classes.Representation;
 import be.vvd.classes.Reservation;
+import be.vvd.classes.Spectacle;
 import be.vvd.classes.Utilisateur;
 
 import javax.swing.JButton;
@@ -28,13 +31,11 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.JSpinner;
 
 public class MyRepresentations extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField tfHeureOuverture;
-	private JTextField tfHeureDebut;
-	private JTextField tfHeureFin;
 
 	/**
 	 * Launch the application.
@@ -103,6 +104,7 @@ public class MyRepresentations extends JFrame {
 		CBDate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CBDateRepre.removeAllItems();
+				listRepre.clear();
 				long id=0;
 				for(var item : listRes) {
 					String date = item.getDateDebutR()+ " au "+item.getDateFinR();
@@ -194,38 +196,57 @@ public class MyRepresentations extends JFrame {
 		lblSlectionnerUneDate.setBounds(222, 83, 190, 13);
 		contentPane.add(lblSlectionnerUneDate);
 		
-		tfHeureOuverture = new JTextField();
-		tfHeureOuverture.setBounds(35, 195, 130, 19);
-		contentPane.add(tfHeureOuverture);
-		tfHeureOuverture.setColumns(10);
+		JSpinField jspinHeureOuverture = new JSpinField();
+		jspinHeureOuverture.setBounds(52, 195, 102, 20);
+		jspinHeureOuverture.setMinimum(0);
+		jspinHeureOuverture.setMaximum(24);
+		contentPane.add(jspinHeureOuverture);
 		
-		tfHeureDebut = new JTextField();
-		tfHeureDebut.setColumns(10);
-		tfHeureDebut.setBounds(252, 195, 130, 19);
-		contentPane.add(tfHeureDebut);
+		JSpinField jspinHeureDebut = new JSpinField();
+		jspinHeureDebut.setBounds(267, 195, 102, 20);
+		jspinHeureDebut.setMinimum(0);
+		jspinHeureDebut.setMaximum(24);
+		contentPane.add(jspinHeureDebut);
 		
-		tfHeureFin = new JTextField();
-		tfHeureFin.setColumns(10);
-		tfHeureFin.setBounds(35, 274, 130, 19);
-		contentPane.add(tfHeureFin);
+		JSpinField jspinHeureFin = new JSpinField();
+		jspinHeureFin.setBounds(52, 274, 102, 20);
+		jspinHeureFin.setMinimum(0);
+		jspinHeureFin.setMaximum(24);
+		contentPane.add(jspinHeureFin);
 		
 		JButton btnAddRepre = new JButton("Ajouter  une repr\u00E9sentation");
 		btnAddRepre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				boolean bool=true;
+				Reservation res=null;
  				String date = (String) CBDateRepre.getSelectedItem();
-				String heureOuverture = tfHeureOuverture.getText();
-				String heureDebut = tfHeureDebut.getText();
-				String heureFin = tfHeureFin.getText();
-				if(date.isBlank() || heureOuverture.isBlank() || heureDebut.isBlank() || heureFin.isBlank()) {
+				int heureOuverture = jspinHeureOuverture.getValue();
+				int heureDebut = jspinHeureDebut.getValue();
+				int heureFin = jspinHeureFin.getValue();
+				if(date==null) {
 					JOptionPane.showMessageDialog(null,"Veuillez remplir tous les champs");
-				}else { 							
-					Representation repres = new Representation(date,heureOuverture,heureDebut,heureFin);
+					bool=false;
+				} 						
+				if(CBDateRepre.getSelectedIndex()==0 && (heureOuverture<12 || heureDebut < 12 || heureFin<12 )) {
+					JOptionPane.showMessageDialog(null,"Vous ne pouvez pas réserver le premier jour avant 12h");
+					bool=false;
+				}
+				
+				if(CBDateRepre.getSelectedIndex()==CBDateRepre.getItemCount()-1 && (heureOuverture<12 || heureDebut < 12 || heureFin<12 )) {
+					JOptionPane.showMessageDialog(null,"Vous ne pouvez pas réserver le dernier après 12h");
+					bool=false;
+				}
+				if(bool) {					
+					for(var item : listRes) {
+						String date2 = item.getDateDebutR()+ " au "+item.getDateFinR();
+						if(CBDate.getSelectedItem().equals(date2)) {
+							res = item.getReservationByID();
+						}
+					}
+					Representation repres = new Representation(date,Integer.toString(heureOuverture),Integer.toString(heureDebut),Integer.toString(heureFin),res.getPlanning().getSpectacle());
 					listRepre.add(repres);
 					JOptionPane.showMessageDialog(null,"Représentation ajoutée dans la liste");
 				}
- 				for(var item : listRepre) {
- 					System.out.println(item.getDate());
- 				}
 			}
 		});
 		btnAddRepre.setBounds(207, 273, 205, 21);
@@ -243,7 +264,7 @@ public class MyRepresentations extends JFrame {
 		lblHeureDebut.setBounds(229, 172, 183, 13);
 		contentPane.add(lblHeureDebut);
 		
-		JLabel lblHeureFin = new JLabel("Selectionner une r\u00E9servation");
+		JLabel lblHeureFin = new JLabel("HeureFin");
 		lblHeureFin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblHeureFin.setForeground(Color.WHITE);
 		lblHeureFin.setBounds(10, 251, 183, 13);
@@ -252,7 +273,7 @@ public class MyRepresentations extends JFrame {
 		JButton btnAddRepresInDb = new JButton("Creer la/les repr\u00E9sentation(s)");
 		btnAddRepresInDb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				Representation.addListRepresentation(listRepre);
 			}
 		});
 		btnAddRepresInDb.setBounds(222, 376, 203, 21);

@@ -49,6 +49,10 @@ public class Reservation {
 		this.planning=planning;
 	}
 	
+	public Reservation(long id) {
+		this.id=id;
+	}
+	
 	public void setSolde(int solde) {
 		this.solde=solde;
 	}
@@ -75,6 +79,10 @@ public class Reservation {
 	
 	public int getPlaceMax(){
 		return this.planning.getPlaceMax();
+	}
+	
+	public PlanningSalle getPlanning() {
+		return this.planning;
 	}
 	
 	public long getID() {
@@ -107,6 +115,10 @@ public class Reservation {
 	
 	public boolean paiementAccompte() {
 		return dao.paiementAccompte(this);
+	}
+	
+	public Reservation getReservationByID() {
+		return dao.find(this.id);
 	}
 	
 	public static Set<Reservation> findAll(){

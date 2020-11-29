@@ -1,6 +1,7 @@
 package be.vvd.dao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Set;
 
 import be.vvd.classes.Representation;
@@ -18,9 +19,17 @@ public class RepresentationDAO implements DAO<Representation> {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+	//SELECT * FROM Reservation INNER JOIN Spectacle ON Reservation.idSpectacle = Spectacle.id  WHERE idUtilisateur='"+user.getID()+"'
 	public boolean create(Set<Representation> obj) {
-		return false;
+		try {			
+			for(var item : obj) {
+				this.connect.createStatement().executeUpdate("INSERT INTO Representation VALUES(null,'"+item.getDate()+"','"+item.getHeureOuverture()+"','"+item.getHeureDebut()+"','"+item.getHeureFin()+"','"+item.getSpectacle().getID()+"')");
+			}
+			return true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
@@ -36,7 +45,7 @@ public class RepresentationDAO implements DAO<Representation> {
 	}
 
 	@Override
-	public Representation find(int id) {
+	public Representation find(long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

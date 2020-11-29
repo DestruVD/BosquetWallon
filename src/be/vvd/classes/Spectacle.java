@@ -25,7 +25,8 @@ public class Spectacle {
 		this.config=config;
 		this.user=user;
 	}
-	public Spectacle(String titre, int nbrPlaceParClient, Utilisateur user) {
+	public Spectacle(long id,String titre, int nbrPlaceParClient, Utilisateur user) {
+		this.id=id;
 		this.titre=titre;
 		this.nbrPlaceParClient=nbrPlaceParClient;
 		this.user=user;

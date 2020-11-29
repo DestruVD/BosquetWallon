@@ -75,7 +75,7 @@ public class SpectacleDAO implements DAO<Spectacle> {
 			ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Spectacle");
 			while(result.next()) {
 				Utilisateur user = new Utilisateur(result.getInt("idUser"));
-				Spectacle spec = new Spectacle(result.getString("titre"), result.getInt("placeMax"),user);
+				Spectacle spec = new Spectacle(result.getLong("id"),result.getString("titre"), result.getInt("placeMax"),user);
 				listSpec.add(spec);
 			}
 			return listSpec;

@@ -215,7 +215,7 @@ public class DashboardOrga extends JFrame {
 	    						}
 	    					}
 	    				}else {
-	    					if(i-((7+j)+1)==dayDebutRInt && month+1==monthDebutRInt) {
+	    					if(i-((7+j)+1)==dayDebutRInt && month+1==monthDebutRInt && calendar.getYearChooser().getYear()==yearDebutRInt) {
 	    						for(int k=0; k+i-2<compFirstCalendar.length;k++) {
 	    							compFirstCalendar[k+i-2].setBackground(new Color(255,0,0));
 	    							compFirstCalendar[k+i-2].setEnabled(false);
@@ -223,7 +223,7 @@ public class DashboardOrga extends JFrame {
 	    					}
 	    					be.vvd.classes.Date dateDebut2emeMois = new be.vvd.classes.Date(1,monthFinRInt,yearFinRInt);
 	    					int daysCount = be.vvd.classes.Date.betweenTwoDate(dateDebut2emeMois, dateFinR);
-	    					if(month+1==monthFinRInt) {	    						
+	    					if(month+1==monthFinRInt && calendar.getYearChooser().getYear()==yearFinRInt) {	    						
 	    						for(int k=0; k<=daysCount;k++) {
 	    							compFirstCalendar[7+j+k].setBackground(new Color(255,0,0));
 	    							compFirstCalendar[7+j+k].setEnabled(false);
@@ -328,7 +328,7 @@ public class DashboardOrga extends JFrame {
 	    						}
 	    					}
 	    				}else {
-	    					if(i-((7+j)+1)==dayDebutRInt && secondCalendarMonth+1==monthDebutRInt) {
+	    					if(i-((7+j)+1)==dayDebutRInt && secondCalendarMonth+1==monthDebutRInt && secondCalendar.getYearChooser().getYear()==yearDebutRInt) {
 	    						for(int k=0; k+i-2<compSecondCalendar.length;k++) {
 	    							compSecondCalendar[k+i-2].setBackground(new Color(255,0,0));
 	    							compSecondCalendar[k+i-2].setEnabled(false);
@@ -336,7 +336,7 @@ public class DashboardOrga extends JFrame {
 	    					}
 	    					be.vvd.classes.Date dateDebut2emeMois = new be.vvd.classes.Date(1,monthFinRInt,yearFinRInt);
 	    					int daysCount = be.vvd.classes.Date.betweenTwoDate(dateDebut2emeMois, dateFinR);
-	    					if(secondCalendarMonth+1==monthFinRInt) {	    						
+	    					if(secondCalendarMonth+1==monthFinRInt && secondCalendar.getYearChooser().getYear()==yearFinRInt) {	    						
 	    						for(int k=0; k<=daysCount;k++) {
 	    							compSecondCalendar[7+j+k].setBackground(new Color(255,0,0));
 	    							compSecondCalendar[7+j+k].setEnabled(false);

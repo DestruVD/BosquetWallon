@@ -24,6 +24,17 @@ public class Representation {
 		this.spec=spec;
 	}
 	
+	public Representation(String date,String heureOuverture,String heureDebut,String heureFin) {
+		this.date=date;
+		this.heureOuverture=heureOuverture;
+		this.heureDebut=heureDebut;
+		this.heureFin=heureFin;
+	}
+	
+	public Representation(Spectacle spec) {
+		this.spec=spec;
+	}
+	
 	public String getDate() {
 		return this.date;
 	}
@@ -46,5 +57,9 @@ public class Representation {
 	
 	public static boolean addListRepresentation(Set<Representation> list) {
 		return dao.create(list);
+	}
+	
+	public Set<Representation> findBySpectacleID(){
+		return dao.findBySpectacleID(this.spec.getID());
 	}
 }

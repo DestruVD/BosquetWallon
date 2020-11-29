@@ -108,7 +108,7 @@ public class ReservationDAO implements DAO<Reservation>{
 		try {			
 			ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Reservation INNER JOIN Spectacle ON Reservation.idSpectacle = Spectacle.id  WHERE idUtilisateur='"+user.getID()+"'");
 			while(result.next()) {
-				Spectacle spec = new Spectacle(result.getString("titre"));
+				Spectacle spec = new Spectacle(((long)result.getInt("idSpectacle")),result.getString("titre"));
 				PlanningSalle plan = new PlanningSalle(result.getString("DateDebutR"), result.getString("DateFinR"),spec);
 				Reservation res = new Reservation(result.getLong("id"),plan,result.getInt("prix"),result.getString("statut"),result.getInt("solde"),result.getInt("accompte"));
 				listRes.add(res);

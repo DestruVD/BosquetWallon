@@ -1,10 +1,13 @@
 package be.vvd.dao;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Set;
 
 import be.vvd.classes.Representation;
+import be.vvd.classes.Spectacle;
 
 public class RepresentationDAO implements DAO<Representation> {
 
@@ -48,6 +51,21 @@ public class RepresentationDAO implements DAO<Representation> {
 	public Representation find(long id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public Set<Representation> findBySpectacleID(long id){
+		try {
+			Set<Representation> listRep = new HashSet<Representation>();
+			ResultSet res =this.connect.createStatement().executeQuery("SELECT * FROM Representation WHERE id='"+id+"'");
+			while(res.next()) {
+				Representation rep = new Representation(res.getString("Date"),res.getString("HeureOuverture"),res.getString("HeureDebut"),res.getString("HeureFin"));
+				listRep.add(rep);
+			}
+			return listRep;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override

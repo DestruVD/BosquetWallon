@@ -36,6 +36,7 @@ import javax.swing.JSpinner;
 public class MyRepresentations extends JFrame {
 
 	private JPanel contentPane;
+	private Set<Representation> listRepreFromDB;
 
 	/**
 	 * Launch the application.
@@ -104,12 +105,14 @@ public class MyRepresentations extends JFrame {
 		CBDate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CBDateRepre.removeAllItems();
-				listRepre.clear();
 				long id=0;
 				for(var item : listRes) {
 					String date = item.getDateDebutR()+ " au "+item.getDateFinR();
 					if(CBDate.getSelectedItem().equals(date)) {
 						id=item.getID();
+						Representation repr = new Representation(item.getPlanning().getSpectacle());
+						MyRepresentations.this.listRepreFromDB = repr.findBySpectacleID();
+						listRepre.clear();
 						String dateDebut = item.getDateDebutR();
 						String dateFin = item.getDateFinR();
 						
@@ -218,6 +221,7 @@ public class MyRepresentations extends JFrame {
 		btnAddRepre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean bool=true;
+				boolean createRepres=true;
 				Reservation res=null;
  				String date = (String) CBDateRepre.getSelectedItem();
 				int heureOuverture = jspinHeureOuverture.getValue();
@@ -232,20 +236,40 @@ public class MyRepresentations extends JFrame {
 					bool=false;
 				}
 				
-				if(CBDateRepre.getSelectedIndex()==CBDateRepre.getItemCount()-1 && (heureOuverture<12 || heureDebut < 12 || heureFin<12 )) {
+				if(CBDateRepre.getSelectedIndex()==CBDateRepre.getItemCount()-1 && (heureOuverture>12 || heureDebut > 12 || heureFin>12 )) {
 					JOptionPane.showMessageDialog(null,"Vous ne pouvez pas réserver le dernier après 12h");
 					bool=false;
 				}
-				if(bool) {					
-					for(var item : listRes) {
-						String date2 = item.getDateDebutR()+ " au "+item.getDateFinR();
-						if(CBDate.getSelectedItem().equals(date2)) {
-							res = item.getReservationByID();
+				if(bool) {
+					int heureDebutBis = jspinHeureDebut.getValue();
+					int heureFinBis = jspinHeureFin.getValue();
+					for(var itemRep : MyRepresentations.this.listRepreFromDB) {
+						if(itemRep.getDate().equals((String)CBDateRepre.getSelectedItem())) {
+							Set<Integer> compteEntreLesHeures = new HashSet<Integer>();
+							int heureCopy = Integer.parseInt(itemRep.getHeureDebut());
+							while(heureCopy<=Integer.parseInt(itemRep.getHeureFin())) {
+								compteEntreLesHeures.add(heureCopy); 
+								heureCopy++;
+							}
+							if(compteEntreLesHeures.contains(heureDebutBis) || compteEntreLesHeures.contains(heureFinBis)) {
+								createRepres=false;
+							}
 						}
 					}
-					Representation repres = new Representation(date,Integer.toString(heureOuverture),Integer.toString(heureDebut),Integer.toString(heureFin),res.getPlanning().getSpectacle());
-					listRepre.add(repres);
-					JOptionPane.showMessageDialog(null,"Représentation ajoutée dans la liste");
+					if(createRepres) {						
+						for(var item : listRes) {
+							String date2 = item.getDateDebutR()+ " au "+item.getDateFinR();
+							if(CBDate.getSelectedItem().equals(date2)) {
+								res = item.getReservationByID();
+							}
+						}
+						Representation repres = new Representation(date,Integer.toString(heureOuverture),Integer.toString(heureDebut),Integer.toString(heureFin),res.getPlanning().getSpectacle());
+						listRepre.add(repres);
+						listRepreFromDB.add(repres);
+						JOptionPane.showMessageDialog(null,"Représentation ajoutée dans la liste");
+					}else {
+						JOptionPane.showMessageDialog(null,"Ces heures sont déjà réservées pour ce jour");
+					}
 				}
 			}
 		});
@@ -273,7 +297,12 @@ public class MyRepresentations extends JFrame {
 		JButton btnAddRepresInDb = new JButton("Creer la/les repr\u00E9sentation(s)");
 		btnAddRepresInDb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Representation.addListRepresentation(listRepre);
+				if(!listRepre.isEmpty()) {					
+					Representation.addListRepresentation(listRepre);
+					JOptionPane.showMessageDialog(null,"Vos représentations ont été créée");
+				}else {
+					JOptionPane.showMessageDialog(null,"Vous n'avez ajouté aucune représentation");
+				}
 			}
 		});
 		btnAddRepresInDb.setBounds(222, 376, 203, 21);

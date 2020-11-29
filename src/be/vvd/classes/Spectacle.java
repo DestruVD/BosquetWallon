@@ -31,7 +31,8 @@ public class Spectacle {
 		this.user=user;
 	}
 	
-	public Spectacle(String titre) {
+	public Spectacle(long id,String titre) {
+		this.id=id;
 		this.titre=titre;
 	}
 	

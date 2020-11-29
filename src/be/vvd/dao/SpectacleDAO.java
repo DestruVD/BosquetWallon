@@ -11,6 +11,7 @@ import java.util.Set;
 import be.vvd.classes.Client;
 import be.vvd.classes.PlanningSalle;
 import be.vvd.classes.Spectacle;
+import be.vvd.classes.Utilisateur;
 
 public class SpectacleDAO implements DAO<Spectacle> {
 
@@ -33,11 +34,11 @@ public class SpectacleDAO implements DAO<Spectacle> {
 					idArtistes.add(res.getLong("id"));
 				}
 			}
-			PreparedStatement statement = this.connect.prepareStatement("INSERT INTO Spectacle VALUES(null,'"+obj.getTitre()+"','"+obj.getPlaceMax()+"','"+obj.getIDConfig()+"')",Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement statement = this.connect.prepareStatement("INSERT INTO Spectacle VALUES(null,'"+obj.getTitre()+"','"+obj.getPlaceMax()+"','"+obj.getConfig().getID()+"','"+obj.getUser().getID()+"')",Statement.RETURN_GENERATED_KEYS);
 			statement.executeUpdate();
 			ResultSet res = statement.getGeneratedKeys();
 			if(res.next()) {
-				idSpec = res.getLong(1);
+				idSpec = res.getLong("id");
 			}
 			for(var idArtiste : idArtistes) {				
 				this.connect.createStatement().executeUpdate("INSERT INTO Spectacle_Artiste VALUES ('"+idSpec+"','"+idArtiste+"')");
@@ -73,7 +74,8 @@ public class SpectacleDAO implements DAO<Spectacle> {
 		try {			
 			ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Spectacle");
 			while(result.next()) {
-				Spectacle spec = new Spectacle(result.getString("titre"), result.getInt("placeMax"));
+				Utilisateur user = new Utilisateur(result.getInt("idUser"));
+				Spectacle spec = new Spectacle(result.getString("titre"), result.getInt("placeMax"),user);
 				listSpec.add(spec);
 			}
 			return listSpec;

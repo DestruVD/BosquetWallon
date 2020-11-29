@@ -10,24 +10,31 @@ public class Spectacle {
 	private String titre;
 	private int nbrPlaceParClient;
 	private Set<String> listArtiste;
-	private long idConfig;
+	private Utilisateur user;
+	private be.vvd.classes.Configuration config;
 	
 	protected static DAOFactory factory = (DAOFactory) DAOFactory.getFactory(0);
 	protected static SpectacleDAO dao = factory.getSpectacleDAO();
 	
-	public Spectacle(String titre, int nbrPlaceParClient, Set<String> listArtiste,long id) {
+	public Spectacle(String titre, int nbrPlaceParClient, Set<String> listArtiste,be.vvd.classes.Configuration config,Utilisateur user) {
 		this.titre=titre;
 		this.nbrPlaceParClient=nbrPlaceParClient;
 		this.listArtiste=listArtiste;
-		this.idConfig=id;
+		this.config=config;
+		this.user=user;
 	}
-	public Spectacle(String titre, int nbrPlaceParClient) {
+	public Spectacle(String titre, int nbrPlaceParClient, Utilisateur user) {
 		this.titre=titre;
 		this.nbrPlaceParClient=nbrPlaceParClient;
+		this.user=user;
 	}
 	
 	public Spectacle(String titre) {
 		this.titre=titre;
+	}
+	
+	public Utilisateur getUser() {
+		return this.user;
 	}
 	
 	public String getTitre() {
@@ -38,8 +45,8 @@ public class Spectacle {
 		return this.nbrPlaceParClient;
 	}
 	
-	public long getIDConfig() {
-		return this.idConfig;
+	public be.vvd.classes.Configuration getConfig() {
+		return this.config;
 	}
 	
 	public Set<String> getListArtiste() {

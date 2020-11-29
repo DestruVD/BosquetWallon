@@ -36,6 +36,9 @@ public class Utilisateur{
 		this.id=id;
 		this.role=role;
 	}
+	public Utilisateur(long id) {
+		this.id=id;
+	}
 	
 	public void setNom(String nom) {
 		this.nom=nom;

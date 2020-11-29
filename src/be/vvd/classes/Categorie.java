@@ -5,7 +5,7 @@ import be.vvd.dao.ConfigurationDAO;
 import be.vvd.dao.DAOFactory;
 
 public class Categorie {
-	private long idConfig;
+	private be.vvd.classes.Configuration config;
 	private String nomCategorie;
 	private int prix;
 	private int nbrPlaceDispo;
@@ -14,12 +14,12 @@ public class Categorie {
 	protected static DAOFactory factory = (DAOFactory) DAOFactory.getFactory(0);
 	protected static CategorieDAO dao = factory.getCategorieDAO();
 	
-	public Categorie(String nomCategorie,int prix,int nbrPlaceDispo,int nbrPlaceMax,long idConfig) {
+	public Categorie(String nomCategorie,int prix,int nbrPlaceDispo,int nbrPlaceMax,be.vvd.classes.Configuration config) {
 		this.nomCategorie=nomCategorie;
 		this.prix=prix;
 		this.nbrPlaceDispo=nbrPlaceDispo;
 		this.nbrPlaceMax=nbrPlaceMax;
-		this.idConfig=idConfig;
+		this.config=config;
 	}
 	
 	public String getNomCateg() {
@@ -30,8 +30,8 @@ public class Categorie {
 		return this.nbrPlaceDispo;
 	}
 	
-	public long getIDConfig() {
-		return this.idConfig;
+	public be.vvd.classes.Configuration getConfig() {
+		return this.config;
 	}
 	
 	public int getPrix() {

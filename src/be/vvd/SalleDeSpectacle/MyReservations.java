@@ -20,6 +20,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
@@ -50,6 +52,7 @@ public class MyReservations extends JFrame {
 	 * Create the frame.
 	 */
 	public MyReservations(Utilisateur user) {
+		setResizable(false);
 		Set<Reservation> listRes = Reservation.findAllByUser(user);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 470);
@@ -65,7 +68,7 @@ public class MyReservations extends JFrame {
 		
 
 		Panel panel = new Panel();
-		panel.setBounds(71, 113, 417, 160);
+		panel.setBounds(71, 113, 553, 205);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -110,9 +113,29 @@ public class MyReservations extends JFrame {
 		lblPrixValue.setBounds(282, 66, 125, 13);
 		panel.add(lblPrixValue);
 		
-		JButton btnPay = new JButton("Payer");
-		btnPay.setBounds(306, 129, 101, 21);
-		panel.add(btnPay);
+		JLabel lblSolde = new JLabel("Solde");
+		lblSolde.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSolde.setForeground(new Color(102, 0, 51));
+		lblSolde.setBounds(418, 45, 125, 13);
+		panel.add(lblSolde);
+		
+		JLabel lblSoldeValue = new JLabel("");
+		lblSoldeValue.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSoldeValue.setForeground(Color.DARK_GRAY);
+		lblSoldeValue.setBounds(418, 66, 125, 13);
+		panel.add(lblSoldeValue);
+		
+		JLabel lblModePaiement = new JLabel("Mode de paiement");
+		lblModePaiement.setHorizontalAlignment(SwingConstants.CENTER);
+		lblModePaiement.setForeground(new Color(102, 0, 0));
+		lblModePaiement.setBounds(10, 105, 128, 13);
+		panel.add(lblModePaiement);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(20, 130, 101, 21);
+		comboBox.addItem("Visa");
+		comboBox.addItem("PayPal");
+		panel.add(comboBox);
 		
 		JButton btnRetour = new JButton("Retour");
 		btnRetour.addActionListener(new ActionListener() {
@@ -147,11 +170,11 @@ public class MyReservations extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				for(var item : listRes) {
 					String date = item.getDateDebutR()+ " au "+item.getDateFinR();
-					System.out.println(CBRes.getSelectedIndex());
 					if(CBRes.getSelectedItem().equals(date)) {
 						lblAccompteValue.setText(Integer.toString(item.getAccompte()));
 						lblStatutValue.setText(item.getStatut());
 						lblPrixValue.setText(Integer.toString(item.getPrix()));
+						lblSoldeValue.setText(Integer.toString(item.getSolde()));
 					}
 				}
 			}
@@ -160,12 +183,74 @@ public class MyReservations extends JFrame {
 		
 		for(var item : listRes) {
 			String date = item.getDateDebutR()+ " au "+item.getDateFinR();
-			System.out.println(CBRes.getSelectedIndex());
 			if(CBRes.getSelectedItem().equals(date)) {
 				lblAccompteValue.setText(Integer.toString(item.getAccompte()));
 				lblStatutValue.setText(item.getStatut());
 				lblPrixValue.setText(Integer.toString(item.getPrix()));
+				lblSoldeValue.setText(Integer.toString(item.getSolde()));
 			}
 		}
+		
+		JButton btnPayerTotalit = new JButton("Payer totalit\u00E9");
+		btnPayerTotalit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Reservation res = null;
+				for(var item : listRes) {
+					String date = item.getDateDebutR()+ " au "+item.getDateFinR();
+					if(CBRes.getSelectedItem().equals(date)) {		
+						if(!item.getStatut().equals("Payé")) {							
+							res = item;
+							item.setSolde(0);
+							item.setStatut("Payé");
+							lblSoldeValue.setText(Integer.toString(item.getSolde()));
+							lblStatutValue.setText(item.getStatut());
+							res.updateReservation();
+							if(comboBox.getSelectedItem().equals("Visa")) {								
+								JOptionPane.showMessageDialog(null,"Réservation payé avec Visa");
+							}else {
+								JOptionPane.showMessageDialog(null,"Réservation payé avec PayPal");
+							}
+						}else {
+							JOptionPane.showMessageDialog(null,"Réservation déjà payée");
+						}
+					}
+				}
+			}
+		});
+		btnPayerTotalit.setBounds(418, 174, 132, 21);
+		panel.add(btnPayerTotalit);
+		
+		JButton btnPay = new JButton("Payer accompte");
+		btnPay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Reservation res = null;
+				for(var item : listRes) {
+					String date = item.getDateDebutR()+ " au "+item.getDateFinR();
+					if(CBRes.getSelectedItem().equals(date)) {
+						if(!item.getStatut().equals("Payé")) {
+							if(!item.getStatut().equals("Accompte payé")) {								
+								res = item;
+								item.setSolde(item.getPrix()-item.getAccompte());
+								item.setStatut("Accompte payé");
+								lblSoldeValue.setText(Integer.toString(item.getSolde()));
+								lblStatutValue.setText("Accompte payé");
+								res.paiementAccompte();
+								if(comboBox.getSelectedItem().equals("Visa")) {								
+									JOptionPane.showMessageDialog(null,"Accompte payé avec Visa");
+								}else {
+									JOptionPane.showMessageDialog(null,"Accompte payé avec PayPal");
+								}
+							}else {
+								JOptionPane.showMessageDialog(null,"Accompte déjà payé");
+							}
+						}else {
+							JOptionPane.showMessageDialog(null,"Réservation déjà payée");
+						}
+					}
+				}
+			}
+		});
+		btnPay.setBounds(266, 174, 141, 21);
+		panel.add(btnPay);
 	}
 }

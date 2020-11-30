@@ -52,7 +52,7 @@ public class RepresentationDAO implements DAO<Representation> {
 			
 			for(var rep : listReprID) {
 				for(var categ : listCateg) {
-					this.connect.createStatement().executeUpdate("INSERT INTO Categorie_Representation VALUES('"+categ.getID()+"','"+rep+"','"+categ.getNbrPlaceMax()+"')");
+					this.connect.createStatement().executeUpdate("INSERT INTO Categorie_Representation VALUES('"+categ.getID()+"','"+rep+"','"+categ.getNbrPlaceDispo()+"')");
 				}
 			}
 			return true;
@@ -70,14 +70,32 @@ public class RepresentationDAO implements DAO<Representation> {
 
 	@Override
 	public boolean update(Representation obj) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			this.connect.createStatement().executeUpdate("UPDATE Categorie_Representation SET placeDispo = '"+obj.getSpectacle().getConfig().getCateg().getNbrPlaceDispo()+"' WHERE idCategorie='"+obj.getSpectacle().getConfig().getCateg().getID()+"' AND idRepresentation='"+obj.getID()+"'");
+			return true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
-	@Override
 	public Representation find(long id) {
-		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public Set<Categorie> find(Representation rep) {
+		try {
+			Set<Categorie> listCateg = new HashSet<Categorie>();
+			ResultSet res = this.connect.createStatement().executeQuery("SELECT * FROM Categorie_Representation INNER JOIN Categorie ON Categorie.id = Categorie_Representation.idCategorie WHERE idRepresentation='"+rep.getID()+"'");
+			while(res.next()) {
+				Categorie categ = new Categorie(res.getLong("id"),res.getString("nom"),res.getDouble("prix"),res.getInt("placeDispo"));
+				listCateg.add(categ);
+			}
+			return listCateg;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public Set<Representation> findBySpectacleID(long id){
@@ -85,7 +103,7 @@ public class RepresentationDAO implements DAO<Representation> {
 			Set<Representation> listRep = new HashSet<Representation>();
 			ResultSet res =this.connect.createStatement().executeQuery("SELECT * FROM Representation WHERE idSpectacle='"+id+"'");
 			while(res.next()) {
-				Representation rep = new Representation(res.getString("Date"),res.getString("HeureOuverture"),res.getString("HeureDebut"),res.getString("HeureFin"));
+				Representation rep = new Representation(res.getLong("id"),res.getString("Date"),res.getString("HeureOuverture"),res.getString("HeureDebut"),res.getString("HeureFin"));
 				listRep.add(rep);
 			}
 			return listRep;

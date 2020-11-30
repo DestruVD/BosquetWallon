@@ -9,6 +9,7 @@ public class Configuration {
 	private long id;
 	private String nomConfiguration;
 	private Set<Categorie> listCateg;
+	private Categorie categ;
 	
 	protected static DAOFactory factory = (DAOFactory) DAOFactory.getFactory(0);
 	protected static ConfigurationDAO dao = factory.getConfigurationDAO();
@@ -21,9 +22,17 @@ public class Configuration {
 	public Configuration(String nomConfiguration) {
 		this.nomConfiguration=nomConfiguration;
 	}
+	
+	public Configuration(Categorie categ) {
+		this.categ=categ;
+	}
 
 	public void setID(long id) {
 		this.id=id;
+	}
+	
+	public Categorie getCateg() {
+		return this.categ;
 	}
 	
 	public long getID() {

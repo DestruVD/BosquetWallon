@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import be.vvd.classes.Utilisateur;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -210,14 +211,14 @@ public class InscriptionForm extends JFrame {
 					}else {
 						numArtiste=tfNumArtiste.getText();
 					}
-					if(!pwd.equals(confirmPwd) ){ //|| numTel.isEmpty() || numBanque.isEmpty() || numArtiste.isEmpty()
-						System.out.println("Les mots de passes sont différents ");
+					if(!pwd.equals(confirmPwd) ){
+						JOptionPane.showMessageDialog(null,"Les mots de passes sont différents");
 					}else if(InscriptionForm.this.client && numTel.isEmpty()) {
-						System.out.println("Le numéro de téléphone est manquant");
+						JOptionPane.showMessageDialog(null,"Le numéro de téléphone est manquant");
 					}else if(InscriptionForm.this.orga && numBanque.isEmpty()) {
-						System.out.println("Le numéro de banque est manquant");
+						JOptionPane.showMessageDialog(null,"Le numéro de banque est manquant");
 					}else if(InscriptionForm.this.artiste && numArtiste.isEmpty()) {
-						System.out.println("Le numéro d'artiste est manquant");
+						JOptionPane.showMessageDialog(null,"Le numéro d'artiste est manquant");
 					}else {
 						if(InscriptionForm.this.client) {						
 							Client client = new Client(nom,prenom,adresse,role,email,pwd,numTel);
@@ -234,7 +235,7 @@ public class InscriptionForm extends JFrame {
 							Main main = new Main();
 							main.setVisible(true);
 						}else {
-							System.out.println("Ce compte existe déjà");
+							JOptionPane.showMessageDialog(null,"Ce compte existe déjà");
 						}
 					}
 				}

@@ -108,7 +108,9 @@ public class Connexion extends JFrame {
 				Utilisateur ResponseUser = user.login();
 				if(ResponseUser!=null){
 					switch(ResponseUser.getRole()) {
-						case "client": System.out.println("Client");
+						case "client": Connexion.this.dispose();
+									   DashboardUser dashbUser = new DashboardUser(ResponseUser);
+									   dashbUser.setVisible(true);
 							break;
 						case "organisateur": Connexion.this.dispose();
 											 DashboardOrga dashbOrga = new DashboardOrga(ResponseUser);

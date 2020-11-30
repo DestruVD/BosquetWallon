@@ -7,6 +7,7 @@ import be.vvd.dao.RepresentationDAO;
 import be.vvd.dao.ReservationDAO;
 
 public class Representation {
+	private long id;
 	private String date;
 	private String heureOuverture;
 	private String heureDebut;
@@ -24,15 +25,28 @@ public class Representation {
 		this.spec=spec;
 	}
 	
-	public Representation(String date,String heureOuverture,String heureDebut,String heureFin) {
+	public Representation(long id,String date,String heureOuverture,String heureDebut,String heureFin) {
+		this.id=id;
 		this.date=date;
 		this.heureOuverture=heureOuverture;
 		this.heureDebut=heureDebut;
 		this.heureFin=heureFin;
 	}
 	
+	public Representation(long id) {
+		this.id=id;
+	}
+	public Representation(long id,Spectacle spec) {
+		this.id=id;
+		this.spec=spec;
+	}
+	
 	public Representation(Spectacle spec) {
 		this.spec=spec;
+	}
+	
+	public long getID() {
+		return this.id;
 	}
 	
 	public String getDate() {
@@ -61,5 +75,13 @@ public class Representation {
 	
 	public Set<Representation> findBySpectacleID(){
 		return dao.findBySpectacleID(this.spec.getID());
+	}
+	
+	public Set<Categorie> find() {
+		return dao.find(this);
+	}
+	
+	public boolean update() {
+		return dao.update(this);
 	}
 }

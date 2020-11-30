@@ -37,6 +37,10 @@ public class Spectacle {
 		this.titre=titre;
 	}
 	
+	public Spectacle(be.vvd.classes.Configuration config) {
+		this.config=config;
+	}
+	
 	public Spectacle(long id, Set<Representation> list) {
 		this.id=id;
 		this.listRepres=list;

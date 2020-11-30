@@ -243,9 +243,6 @@ public class MyRepresentations extends JFrame {
 				if(bool) {
 					int heureDebutBis = jspinHeureDebut.getValue();
 					int heureFinBis = jspinHeureFin.getValue();
-					for(var test : MyRepresentations.this.listRepreFromDB) {
-						System.out.println(test.getDate());
-					}
 					for(var itemRep : MyRepresentations.this.listRepreFromDB) {
 						if(itemRep.getDate().equals((String)CBDateRepre.getSelectedItem())) {
 							Set<Integer> compteEntreLesHeures = new HashSet<Integer>();

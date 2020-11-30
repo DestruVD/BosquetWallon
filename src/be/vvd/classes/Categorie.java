@@ -22,11 +22,21 @@ public class Categorie {
 		this.config=config;
 	}
 	
-	public Categorie(long id,String nomCategorie,double prix,int nbrPlaceMax) {
+	public Categorie(long id,String nomCategorie,double prix,int nbrPlaceDispo) {
 		this.id=id;
 		this.nomCategorie=nomCategorie;
 		this.prix=prix;
-		this.nbrPlaceMax=nbrPlaceMax;
+		this.nbrPlaceDispo=nbrPlaceDispo;
+	}
+	
+	public Categorie(double prix,int nbrPlaceDispo) {
+		this.prix=prix;
+		this.nbrPlaceDispo=nbrPlaceDispo;
+	}
+	
+	public Categorie(long id,int nbrPlaceDispo) {
+		this.id=id;
+		this.nbrPlaceDispo=nbrPlaceDispo;
 	}
 	
 	public String getNomCateg() {

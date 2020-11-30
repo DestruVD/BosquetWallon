@@ -25,7 +25,8 @@ public class Spectacle {
 		this.config=config;
 		this.user=user;
 	}
-	public Spectacle(String titre, int nbrPlaceParClient, Utilisateur user) {
+	public Spectacle(long id,String titre, int nbrPlaceParClient, Utilisateur user) {
+		this.id=id;
 		this.titre=titre;
 		this.nbrPlaceParClient=nbrPlaceParClient;
 		this.user=user;
@@ -34,6 +35,10 @@ public class Spectacle {
 	public Spectacle(long id,String titre) {
 		this.id=id;
 		this.titre=titre;
+	}
+	
+	public Spectacle(be.vvd.classes.Configuration config) {
+		this.config=config;
 	}
 	
 	public Spectacle(long id, Set<Representation> list) {
